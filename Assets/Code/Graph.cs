@@ -51,7 +51,7 @@ public class Graph : MonoBehaviour {
     }
 
     private bool isBlocked(Vector3 what) {
-        if (what.x * what.x + what.z * what.z <= 70 * 70)
+        if (what.x * what.x + what.y * what.y + what.z * what.z <= 70 * 70)
             return true;
         return false;
     }
@@ -67,7 +67,7 @@ public class Graph : MonoBehaviour {
     }
 
     public List<Vector3> planRoute(Vector3 start, Vector3 end) {
-        if (isBlocked(end))
+        if (isBlocked(end) || isBlocked(start))
             return null;
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
@@ -75,21 +75,16 @@ public class Graph : MonoBehaviour {
 
         queue.Add(new Tuple<float, Point> (minCost, new Point(start, 0f, minCost, null)));
         cost.Add(start, minCost);
-        int iterations = 0;
 
         while (queue.Count != 0) {
-            /*if (iterations++ == 1000) {
-                print("SAD END");
-                return null;
-            }*/
                 
             Tuple<float, Point> examined = queue.Min;
             Vector3 inPoint = examined.Item2.point;
-            print("IM IN " + inPoint + " SCORE : " + examined.Item1);
+            //print("IM IN " + inPoint + " SCORE : " + examined.Item1);
             queue.Remove(examined);
 
             if (isThisEnd(inPoint, end) || minPath(inPoint, end) <= change) {
-                print("END WITH " + iterations + " ITERATIONS");
+                //print("END WITH " + iterations + " ITERATIONS");
                 return extractPath(start, examined.Item2);
             }
                 
@@ -126,7 +121,6 @@ public class Graph : MonoBehaviour {
     private List<Vector3> extractPath(Vector3 start, Point end) {
         List<Vector3> path = new List<Vector3>();
         Point now = end;
-        int iter = 0;
         while (now.point != start) {
             path.Add(now.point);
             now = now.cameFrom;
