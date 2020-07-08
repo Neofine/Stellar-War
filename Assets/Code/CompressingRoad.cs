@@ -24,7 +24,7 @@ public class CompressingRoad : MonoBehaviour{
         return answer;
     }
 
-    private bool noObjectOnWay(Vector3 start, Vector3 end, Ship ship) {
+    public bool noObjectOnWay(Vector3 start, Vector3 end, Ship ship) {
         float width = ship.GetComponent<Renderer>().bounds.size.x;
         float height = ship.GetComponent<Renderer>().bounds.size.y;
         float length = ship.GetComponent<Renderer>().bounds.size.z;

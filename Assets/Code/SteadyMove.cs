@@ -26,21 +26,13 @@ public class SteadyMove : MonoBehaviour {
     private float moveSpeed; //tmp for saving speed 
 	
 	void Update () {
+        //print("KLATKEN");
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
                 objDestination objNow = objToMove[i];
+                //print(objNow.obj.toString() + "moving");
                 objNow.iteration++;
                 Vector3 position = objNow.obj.transform.position;
-                if (position == new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z)) {
-                    //print("DONE! " + position);
-                    objToMove.Remove(objNow);
-                    //i--;
-                    if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
-                        objToMove.Add(new objDestination(objNow.obj, moveQueue[objNow.obj].First()));
-                        moveQueue[objNow.obj].Remove(moveQueue[objNow.obj].First());
-                    }
-                    continue;
-                }
                 moveSpeed = objNow.obj.getSpeed();
                 float xDiff, yDiff, zDiff, max;
                 xDiff = Useful.abs(position.x - objNow.coords.x);
@@ -58,6 +50,17 @@ public class SteadyMove : MonoBehaviour {
                     }
                 }
                 objNow.obj.getObj().transform.position = new Vector3(adjust(position.x, objNow.coords.x, xDiff), adjust(position.y, objNow.coords.y, yDiff), adjust(position.z, objNow.coords.z, zDiff));
+                if (objNow.obj.transform.position == new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z)) {
+                    objToMove.Remove(objNow);
+                    i--;
+                    if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
+                        objToMove.Add(new objDestination(objNow.obj, moveQueue[objNow.obj].First()));
+                        //objNow.obj.getObj().transform.position = new Vector3(adjust(position.x, moveQueue[objNow.obj].First().x, xDiff), adjust(position.y, moveQueue[objNow.obj].First().y, yDiff), adjust(position.z, moveQueue[objNow.obj].First().z, zDiff));
+                        moveQueue[objNow.obj].Remove(moveQueue[objNow.obj].First());
+
+                    }
+                    continue;
+                }
             }
         }
 	}
@@ -76,8 +79,8 @@ public class SteadyMove : MonoBehaviour {
         while (Useful.abs(to - from) < posChange)
             posChange /= 2;
         if (to > from)
-            return from + posChange * frac;
-        return from - posChange * frac;
+            return from + posChange;// * frac;
+        return from - posChange;// * frac;
     }
 
     public void move(Ship obj, Vector3 coords) {

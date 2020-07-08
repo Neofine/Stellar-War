@@ -20,6 +20,7 @@ public class MultiVarFun {
         az = (end.z - start.z) / start.y;
     }
 
+    // given y returns x and z of functions
     public Vector2 calculate(float point) {
         return new Vector2(ax * point + bx, az * point + bz);
     }

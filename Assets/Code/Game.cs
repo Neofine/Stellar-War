@@ -10,7 +10,12 @@ public static class Game {
     private static Mesh mesh = GameObject.Find("GameObject").GetComponent<Mesh>();
     private static Graph graph = GameObject.Find("GameObject").GetComponent<Graph>();
     private static CompressingRoad compRoad = GameObject.Find("GameObject").GetComponent<CompressingRoad>();
+    private static CornerCutting cornCut = GameObject.Find("GameObject").GetComponent<CornerCutting>();
     private static List<Ship> movableObj = new List<Ship>();
+
+    static public CornerCutting getCornerCutting() {
+        return cornCut;
+    }
 
     static public CompressingRoad getCompressingRoad() {
         return compRoad;
