@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movable : MonoBehaviour {
-    private int roadSmoothness = 4;
+    private int roadSmoothness = 5;
     void Update() {
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) {
             Vector3 mousePos = Input.mousePosition;

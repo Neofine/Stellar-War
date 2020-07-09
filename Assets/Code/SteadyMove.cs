@@ -7,7 +7,8 @@ public class SteadyMove : MonoBehaviour {
 
     private List<objDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
-    public float tpLength = 1/100;
+    public float tpLength = 1f;
+    public float almostZero = 0.01f;
 
     private class objDestination {
         public Vector3 coords;
@@ -22,63 +23,74 @@ public class SteadyMove : MonoBehaviour {
     void Start () {
         objToMove = new List<objDestination>();
         moveQueue = new Dictionary<Ship, List<Vector3>>();
-        //InvokeRepeating("moveABit", 0f, 0.001f);
+        InvokeRepeating("moveABit", 0f, 0.01f);
     }
 
     private float moveSpeed; //tmp for saving speed 
 	
-	void Update () {
+	void moveABit() {
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
                 objDestination objNow = objToMove[i];
-                objNow.iteration++;
                 Vector3 position = objNow.obj.transform.position;
                 moveSpeed = objNow.obj.getSpeed();
-                float xDiff, yDiff, zDiff, max;
-                xDiff = Useful.abs(position.x - objNow.coords.x);
-                yDiff = Useful.abs(position.y - objNow.coords.y);
-                zDiff = Useful.abs(position.z - objNow.coords.z);
-                max = Useful.max(xDiff, Useful.max(yDiff, zDiff));
-                xDiff /= max;
-                yDiff /= max;
-                zDiff /= max;
-                if (objNow.iteration == 1) {
+
+                if (++objNow.iteration == 1) {
                     objNow.obj.getObj().transform.LookAt(new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z));
                     objNow.obj.getObj().transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
                     if (objNow.obj.toString() == "spy") {
                         objNow.obj.getObj().transform.Rotate(new Vector3(0f, 0f, 180f), Space.Self);
                     }
                 }
+
                 Vector3 diff = objNow.coords - position;
-                //print("START: " + diff);
-                if (Game.getGraph().vecLength(objNow.coords, position) >= 1f) {
+                if (Game.getGraph().vecLength(objNow.coords, position) + almostZero >= tpLength) {
                     diff /= Game.getGraph().vecLength(objNow.coords, position);
-                    //print("MOVING BY : " + diff);
-                    //diff *= tpLength;
-                    //print(objNow.obj.getObj().transform.position);
+                    diff *= tpLength;
                     objNow.obj.getObj().transform.position += diff;
-                    //print(objNow.obj.getObj().transform.position);
                 }
-                else {
-                    //float tpToGo = tpLength - Game.getGraph().vecLength(objNow.coords, position);
-                    objNow.obj.getObj().transform.position = objNow.coords;
-                    //print("EEHEHEHEH");
+                else if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
+                    float rest = tpLength - Game.getGraph().vecLength(objNow.coords, position);
+                    while (rest > almostZero) {
+                        print(rest);
+                        if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
+                            objToMove.RemoveAt(i);
+                            objNow = getNextDest(objNow);
+                            objToMove.Insert(i, objNow);
+                        } 
+                        else {
+                            objNow.obj.getObj().transform.position = objNow.coords;
+                            break;
+                        }
+                        diff = objNow.coords - position;
+                        if (Game.getGraph().vecLength(objNow.coords, position) + almostZero >= rest) {
+                            diff /= Game.getGraph().vecLength(objNow.coords, position);
+                            diff *= rest;
+                            objNow.obj.getObj().transform.position += diff;
+                            break;
+                        }
+                        else rest -= Game.getGraph().vecLength(objNow.coords, position);
+                    }
                 }
-                //objNow.obj.getObj().transform.position = new Vector3(adjust(position.x, objNow.coords.x, xDiff), adjust(position.y, objNow.coords.y, yDiff), adjust(position.z, objNow.coords.z, zDiff));
+                else objNow.obj.getObj().transform.position = objNow.coords;
+
                 if (objNow.obj.transform.position == objNow.coords) {
                     objToMove.Remove(objNow);
                     i--;
                     if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
-                        objToMove.Add(new objDestination(objNow.obj, moveQueue[objNow.obj].First()));
-                        //objNow.obj.getObj().transform.position = new Vector3(adjust(position.x, moveQueue[objNow.obj].First().x, xDiff), adjust(position.y, moveQueue[objNow.obj].First().y, yDiff), adjust(position.z, moveQueue[objNow.obj].First().z, zDiff));
-                        moveQueue[objNow.obj].Remove(moveQueue[objNow.obj].First());
-
+                        objToMove.Add(getNextDest(objNow));
                     }
                     continue;
                 }
             }
         }
 	}
+
+    private objDestination getNextDest(objDestination examined) {
+        objDestination ans = new objDestination(examined.obj, moveQueue[examined.obj].First());
+        moveQueue[examined.obj].Remove(moveQueue[examined.obj].First());
+        return ans;
+    }
 
     public void queueMove(List <Vector3> queue, Ship onWhat) {
         if (moveQueue.ContainsKey(onWhat))
