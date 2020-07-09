@@ -15,46 +15,31 @@ public class CornerCutting : MonoBehaviour {
             Vector3 second = path[i + 1];
             Vector3 third = path[i + 2];
             int tmpCloseness = closeness;
-            Vector3 thrQuarters = Vector3.zero, thrQuarters2 = Vector3.zero, quarter = Vector3.zero, quarter2 = Vector3.zero;
-            print(i);
-            while ((thrQuarters == Vector3.zero && thrQuarters2 == Vector3.zero) || !Game.getCompressingRoad().noObjectOnWay(thrQuarters, quarter2, ship)) {
-                print("making");
-                MultiVarFun fun = new MultiVarFun(first, second);
-                float ySum = first.y + second.y;
-                float part = ySum / closeness;
-                Vector2 cordsFst = fun.calculate(part);
-                quarter = new Vector3(cordsFst.x, part, cordsFst.y);
+            Vector3 thrQuarters, quarter2;
+            do {
+                Vector3 diff = second - first;
+                thrQuarters = second - diff / tmpCloseness;
 
-                Vector2 cordsSnd = fun.calculate(ySum - part);
-                thrQuarters = new Vector3(cordsSnd.x, ySum - part, cordsSnd.y);
-
-                MultiVarFun fun2 = new MultiVarFun(second, third);
-                float ySum2 = second.y + third.y;
-                float part2 = ySum2 / closeness;
-                Vector2 cordsFst2 = fun2.calculate(part2);
-                quarter2 = new Vector3(cordsFst2.x, part2, cordsFst2.y);
-
-                Vector2 cordsSnd2 = fun.calculate(ySum2 - part2);
-                thrQuarters2 = new Vector3(cordsSnd2.x, ySum2 - part2, cordsSnd2.y);
+                Vector3 diff2 = third - second;
+                quarter2 = second + diff2 / tmpCloseness;
                 tmpCloseness++;
-            }
-            //added.Add(new Tuple<Vector3, Vector3>(quarter, thrQuarters));
-            //added.Add(new Tuple<Vector3, Vector3>(quarter2, thrQuarters2));
+            } while (!Game.getCompressingRoad().noObjectOnWay(thrQuarters, quarter2, ship));
             added.Add(new Tuple<Vector3, Vector3>(thrQuarters, quarter2));
         }
 
-        int lastPathCount = path.Count - 1;
+        //int lastPathCount = path.Count - 1;
+        int addIdx = 0;
+        int cutIdx = 0;
 
-        for (int i = 0; i < lastPathCount - 1; i++) {
-            print("IM IN " + i);
-            Vector3 first = path[i];
-            Vector3 second = path[i + 1];
-            if (Game.getCompressingRoad().noObjectOnWay(added[i].Item1, added[i].Item2, ship)) {
-                path.RemoveAt(i + 1);
-                path.Insert(i + 1, added[i].Item2);
-                path.Insert(i + 1, added[i].Item1);
+        while(addIdx != added.Count) {
+            cutIdx++;
+            if (Game.getCompressingRoad().noObjectOnWay(added[addIdx].Item1, added[addIdx].Item2, ship)) {
+                path.RemoveAt(cutIdx);
+                path.Insert(cutIdx, added[addIdx].Item2);
+                path.Insert(cutIdx, added[addIdx].Item1);
+                cutIdx++;
             }
-            
+            addIdx++;
         }
         return smoothPath(path, howSmooth - 1, ship);
     }

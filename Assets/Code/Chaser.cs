@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Chaser : Ship {
 	void Start () {
-        speed = 3f;
+        speed = 20f;
 	}
 
     public override string toString() {

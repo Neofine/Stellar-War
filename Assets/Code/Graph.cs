@@ -11,6 +11,7 @@ using Vector3 = UnityEngine.Vector3;
 public class Graph : MonoBehaviour {
 
     private List<Vector3> forbidden;
+    private int moveNr = 0;
 
     private class Point{
         public Vector3 point;
@@ -67,11 +68,13 @@ public class Graph : MonoBehaviour {
     }
 
     public List<Vector3> planRoute(Vector3 start, Vector3 end) {
+        print("BEGIN nr: " + moveNr);
+        float timer = Time.time;
         if (isBlocked(end) || isBlocked(start))
             return null;
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
-        float minCost = minPath(start, end);
+        float minCost = vecLength(start, end);
 
         queue.Add(new Tuple<float, Point> (minCost, new Point(start, 0f, minCost, null)));
         cost.Add(start, minCost);
@@ -80,11 +83,10 @@ public class Graph : MonoBehaviour {
                 
             Tuple<float, Point> examined = queue.Min;
             Vector3 inPoint = examined.Item2.point;
-            //print("IM IN " + inPoint + " SCORE : " + examined.Item1);
             queue.Remove(examined);
 
-            if (isThisEnd(inPoint, end) || minPath(inPoint, end) <= change) {
-                //print("END WITH " + iterations + " ITERATIONS");
+            if (isThisEnd(inPoint, end) || vecLength(inPoint, end) <= change) {
+                print("MOVE NR : " + (++moveNr) + "ENDED WITH " + (Time.time - timer));
                 return extractPath(start, examined.Item2);
             }
                 
@@ -100,7 +102,7 @@ public class Graph : MonoBehaviour {
                         //print("CHECKING " + newVector);
                         if (isBlocked(newVector) || newVector == inPoint)
                             continue;
-                        float toEnd = minPath(newVector, end);
+                        float toEnd = vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing);
                         Point newPoint = new Point(newVector, costToStart, toEnd, examined.Item2);
 
@@ -129,7 +131,7 @@ public class Graph : MonoBehaviour {
         return path;
     }
 
-    private float minPath(Vector3 start, Vector3 end) {
+    public float vecLength(Vector3 start, Vector3 end) {
         return (float)Math.Sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y) + (start.z - end.z) * (start.z - end.z));
     }
 
@@ -143,35 +145,4 @@ public class Graph : MonoBehaviour {
         }
         return change * (float)Math.Sqrt(3);
     }
-
-    /*private float minPath(Vector3 start, Vector3 end) {
-        Vector3 position = start;
-        float cost = 0;
-        while (position != end) {
-            Vector3 applying = mostOptimal(position, end);
-            cost += VCost(applying);
-            start += applying;
-        }
-        return cost;
-    }
-
-    private Vector3 mostOptimal(Vector3 position, Vector3 end) {
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                for (int z = -1; z <= 1; z++) {
-                    if (compare(x, position.x, end.x) && compare(y, position.y, end.y) && compare(z, position.z, end.z))
-                        return new Vector3(x * change, y * change, z * change);
-                }
-            }
-        }
-        return Vector3.zero;
-    }
-
-    private bool compare(int sign, float a, float b) {
-        if ((sign == -1 && a < b) || (sign == 0 && a == b) || (sign == 1 && a > b))
-            return true;
-        return false;
-    }
-
-    */
 }

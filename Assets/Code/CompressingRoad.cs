@@ -37,7 +37,7 @@ public class CompressingRoad : MonoBehaviour{
                     //Vector3 newVec = new Vector3(x * width / 2, y * height / 2, z * length / 2);
                     Vector3 newVec = new Vector3(x * neverTouch / 2, y * neverTouch / 2, z * neverTouch / 2);
                     if (Physics.Linecast(start + newVec, end + newVec, out hit) && hit.collider.gameObject != ship.getObj()) {
-                        print(hit.collider.gameObject.name);
+                        //print(hit.collider.gameObject.name);
                         return false;
                     }
                         

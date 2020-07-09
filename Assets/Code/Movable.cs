@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movable : MonoBehaviour {
-    private int roadSmoothness = 1;
+    private int roadSmoothness = 4;
     void Update() {
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) {
             Vector3 mousePos = Input.mousePosition;
@@ -37,25 +37,16 @@ public class Movable : MonoBehaviour {
                     Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
                     List<Vector3> route = new List<Vector3>();
                     route = Game.getGraph().planRoute(position, end);
-                    print("ROUTE BEGIN WITH " + position);
+                    //print("ROUTE BEGIN WITH " + position);
                     if (route == null)
                         print("NOT FOUND!");
                     else {
                         route.Reverse();
-                        //Game.getStdMove().queueMove(Game.getCompressingRoad().compress(obj, route), obj);
-                        print("BEFORE SMOOTHING");
-                        foreach (Vector3 vec in route) {
-                            print(vec);
-                        }
                         route = Game.getCompressingRoad().compress(obj, route);
                         route = Game.getCornerCutting().smoothPath(route, roadSmoothness, obj);
                         Game.getStdMove().queueMove(route, obj);
-                        print("AFTER SMOOTHING");
-                        foreach (Vector3 vec in route) {
-                            print(vec);
-                        }
                     }
-                    print("ROUTE END WITH " + end);
+                    //print("ROUTE END WITH " + end);
                 }
             }
         }
