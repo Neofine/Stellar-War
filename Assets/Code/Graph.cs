@@ -11,7 +11,6 @@ using Vector3 = UnityEngine.Vector3;
 public class Graph : MonoBehaviour {
 
     private List<Vector3> forbidden;
-    private int moveNr = 0;
 
     private class Point{
         public Vector3 point;
@@ -29,7 +28,6 @@ public class Graph : MonoBehaviour {
     }
     private class TupleComparer : IComparer<Tuple<float, Point>> {
         public int Compare(Tuple<float, Point> a, Tuple<float, Point> b) {
-            // TODO: Handle x or y being null, or them not having names
             if (a.Item1 != b.Item1)
                 return a.Item1.CompareTo(b.Item1);
             if (a.Item2.point.x != b.Item2.point.x)
@@ -46,7 +44,6 @@ public class Graph : MonoBehaviour {
 		
 	}
 
-    // giving only from and to makes forbidden area cuboid
     public void forbid(Vector3 from, Vector3 to) {
 
     }
@@ -56,20 +53,8 @@ public class Graph : MonoBehaviour {
             return true;
         return false;
     }
-
-    float change = 20f;
-
-    public bool isThisEnd(Vector3 here, Vector3 end) {
-        Vector3 TopLeftBack = end - new Vector3(change, change, change);
-        Vector3 BotRightFront = end + new Vector3(change, change, change);
-        return (here.x >= TopLeftBack.x && here.x <= BotRightFront.x &&
-                here.y <= TopLeftBack.y && here.y >= BotRightFront.y &&
-                here.z <= TopLeftBack.z && here.z >= BotRightFront.z);
-    }
-
-    public List<Vector3> planRoute(Vector3 start, Vector3 end) {
-        print("BEGIN nr: " + moveNr);
-        float timer = Time.time;
+ 
+    public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
         if (isBlocked(end) || isBlocked(start))
             return null;
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
@@ -85,33 +70,33 @@ public class Graph : MonoBehaviour {
             Vector3 inPoint = examined.Item2.point;
             queue.Remove(examined);
 
-            if (isThisEnd(inPoint, end) || vecLength(inPoint, end) <= change) {
-                print("MOVE NR : " + (++moveNr) + "ENDED WITH " + (Time.time - timer));
-                return extractPath(start, examined.Item2);
+            if (vecLength(inPoint, end) <= routePrecision) {
+                if (routePrecision <= 1)
+                    return extractPath(start, examined.Item2);
+                List<Vector3> now = extractPath(start, examined.Item2);
+                List<Vector3> close = planRoute(inPoint, end, routePrecision / 2, ship);
+                close.AddRange(now);
+
+                return close;
             }
                 
-
             if (cost.ContainsKey(inPoint) && cost[inPoint] != examined.Item1)
                 continue;
 
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int z = -1; z <= 1; z++) {
-                        Vector3 changing = new Vector3(x * change, y * change, z * change);
+                        Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
-                        //print("CHECKING " + newVector);
-                        if (isBlocked(newVector) || newVector == inPoint)
+
+                        if (isBlocked(newVector) || newVector == inPoint || !Game.getCompressingRoad().noObjectOnWay(inPoint, newVector, ship))
                             continue;
                         float toEnd = vecLength(newVector, end);
-                        float costToStart = examined.Item2.fromStart + VCost(changing);
+                        float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);
                         Point newPoint = new Point(newVector, costToStart, toEnd, examined.Item2);
 
-                        try {
-                            cost.Remove(newVector);
-                            cost.Add(newVector, costToStart + toEnd);
-                        } catch (ArgumentException) {
-                            //print("IT ALREADY IS ON THE LIST");
-                        }
+                        cost.Remove(newVector);
+                        cost.Add(newVector, costToStart + toEnd);
                         queue.Add(new Tuple<float, Point>(costToStart + toEnd, newPoint));
                     }
                 }
@@ -135,7 +120,7 @@ public class Graph : MonoBehaviour {
         return (float)Math.Sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y) + (start.z - end.z) * (start.z - end.z));
     }
 
-    private float VCost(Vector3 what) {
+    private float VCost(Vector3 what, float change) {
         if (what == Vector3.zero)
             return 0;
         if ((what.x == 0 && what.y == 0) || (what.x == 0 && what.z == 0) || (what.y == 0 && what.z == 0))

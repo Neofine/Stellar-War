@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CornerCutting : MonoBehaviour {
     public int closeness = 4;
+    public float singleVecLength = 0.1f;
     public List<Vector3> smoothPath(List<Vector3> path, int howSmooth, Ship ship) {
         if (howSmooth == 0)
             return path;
@@ -27,13 +28,11 @@ public class CornerCutting : MonoBehaviour {
             added.Add(new Tuple<Vector3, Vector3>(thrQuarters, quarter2));
         }
 
-        //int lastPathCount = path.Count - 1;
-        int addIdx = 0;
-        int cutIdx = 0;
+        int addIdx = 0, cutIdx = 0;
 
         while(addIdx != added.Count) {
             cutIdx++;
-            if (Game.getCompressingRoad().noObjectOnWay(added[addIdx].Item1, added[addIdx].Item2, ship)) {
+            if (Game.getCompressingRoad().noObjectOnWay(added[addIdx].Item1, added[addIdx].Item2, ship) && Game.getGraph().vecLength(added[addIdx].Item1, added[addIdx].Item2) > singleVecLength) {
                 path.RemoveAt(cutIdx);
                 path.Insert(cutIdx, added[addIdx].Item2);
                 path.Insert(cutIdx, added[addIdx].Item1);

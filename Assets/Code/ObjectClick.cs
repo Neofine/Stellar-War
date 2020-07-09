@@ -57,13 +57,6 @@ public class ObjectClick : MonoBehaviour {
         xBig = Useful.max(start.x, end.x);
         ySmall = Useful.min(start.z, end.z);
         yBig = Useful.max(start.z, end.z);
-        //print("PLANE TL " + xSmall + " " + yBig);
-        //print("PLANE BR " + xBig + " " + ySmall);
-
-        //MultiVarFun TL = new MultiVarFun(ClickCoords.cameraCoords(), new Vector3(xSmall, 0f, yBig));
-        //MultiVarFun BR = new MultiVarFun(ClickCoords.cameraCoords(), new Vector3(xBig, 0f, ySmall));
-
-        
 
         foreach (Ship ship in Game.getMovableObj()) {
             Vector3 pos = ship.getObj().transform.position;
@@ -72,7 +65,6 @@ public class ObjectClick : MonoBehaviour {
             xb = ClickCoords.getXSpec(pos, new Vector3(xBig, 0f, ySmall));
             ys = ClickCoords.getZSpec(pos, new Vector3(xBig, 0f, ySmall));
             yb = ClickCoords.getZSpec(pos, new Vector3(xSmall, 0f, yBig));
-            print("TL: " + xs + " " + yb + " BR " + xb + " " + ys);
             if (pos.x <= xb && pos.x >= xs && pos.z <= yb && pos.z >= ys) {
                 Highglight(ship.getObj());
             }

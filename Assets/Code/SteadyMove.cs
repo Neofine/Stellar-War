@@ -7,7 +7,7 @@ public class SteadyMove : MonoBehaviour {
 
     private List<objDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
-    public float tpLength = 1f;
+    public float tpLength = 0.1f;
     public float almostZero = 0.01f;
 
     private class objDestination {
@@ -23,7 +23,7 @@ public class SteadyMove : MonoBehaviour {
     void Start () {
         objToMove = new List<objDestination>();
         moveQueue = new Dictionary<Ship, List<Vector3>>();
-        InvokeRepeating("moveABit", 0f, 0.01f);
+        InvokeRepeating("moveABit", 0f, 0.001f);
     }
 
     private float moveSpeed; //tmp for saving speed 
@@ -43,6 +43,8 @@ public class SteadyMove : MonoBehaviour {
                     }
                 }
 
+                // making a move by a fixed length, so going straight forward and
+                // turning will have the same fixed speed
                 Vector3 diff = objNow.coords - position;
                 if (Game.getGraph().vecLength(objNow.coords, position) + almostZero >= tpLength) {
                     diff /= Game.getGraph().vecLength(objNow.coords, position);
@@ -51,8 +53,8 @@ public class SteadyMove : MonoBehaviour {
                 }
                 else if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
                     float rest = tpLength - Game.getGraph().vecLength(objNow.coords, position);
+                    objNow.obj.getObj().transform.position = objNow.coords;
                     while (rest > almostZero) {
-                        print(rest);
                         if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
                             objToMove.RemoveAt(i);
                             objNow = getNextDest(objNow);
@@ -69,12 +71,16 @@ public class SteadyMove : MonoBehaviour {
                             objNow.obj.getObj().transform.position += diff;
                             break;
                         }
-                        else rest -= Game.getGraph().vecLength(objNow.coords, position);
+                        else {
+                            objNow.obj.getObj().transform.position = objNow.coords;
+                            rest -= Game.getGraph().vecLength(objNow.coords, position);
+                        }
                     }
                 }
                 else objNow.obj.getObj().transform.position = objNow.coords;
 
                 if (objNow.obj.transform.position == objNow.coords) {
+                    print("MOVED TO: " + objNow.obj.transform.position);
                     objToMove.Remove(objNow);
                     i--;
                     if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
@@ -99,15 +105,6 @@ public class SteadyMove : MonoBehaviour {
         queue.Remove(queue.First());
         move(onWhat, firstDirection);
         moveQueue.Add(onWhat, queue);
-    }
-
-    private float adjust(float from, float to, float frac) {
-        float posChange = moveSpeed;
-        while (Useful.abs(to - from) < posChange)
-            posChange /= 2;
-        if (to > from)
-            return from + posChange * frac;
-        return from - posChange * frac;
     }
 
     public void move(Ship obj, Vector3 coords) {
