@@ -14,6 +14,7 @@ public class Movable : MonoBehaviour {
 
             if (objToMove != null && objToMove.Count != 0) {
                 foreach (Ship obj in objToMove) {
+                    print("MOVABLE");
                     Vector3 position = obj.getObj().transform.position;
 
                     if (Useful.abs(position.x - ClickCoords.getX(position, gamePos)) <= 1 && Useful.abs(position.y - Game.getMesh().getHeight()) <= 1 &&

@@ -49,12 +49,14 @@ public class Graph : MonoBehaviour {
     }
 
     private bool isBlocked(Vector3 what) {
+        print("GRAPH");
         if (what.x * what.x + what.y * what.y + what.z * what.z <= 70 * 70)
             return true;
         return false;
     }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
+        print("GRAPH1");
         if (isBlocked(end) || isBlocked(start))
             return null;
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
@@ -65,7 +67,8 @@ public class Graph : MonoBehaviour {
         cost.Add(start, minCost);
 
         while (queue.Count != 0) {
-                
+            print("GRAPH2");
+
             Tuple<float, Point> examined = queue.Min;
             Vector3 inPoint = examined.Item2.point;
             queue.Remove(examined);
@@ -86,6 +89,7 @@ public class Graph : MonoBehaviour {
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int z = -1; z <= 1; z++) {
+                        print("GRAPH3");
                         Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
 
@@ -106,9 +110,11 @@ public class Graph : MonoBehaviour {
     }
 
     private List<Vector3> extractPath(Vector3 start, Point end) {
+        print("GRAPH4");
         List<Vector3> path = new List<Vector3>();
         Point now = end;
         while (now.point != start) {
+            print("GRAPH5");
             path.Add(now.point);
             now = now.cameFrom;
         }
@@ -117,10 +123,12 @@ public class Graph : MonoBehaviour {
     }
 
     public float vecLength(Vector3 start, Vector3 end) {
+        print("GRAPH6");
         return (float)Math.Sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y) + (start.z - end.z) * (start.z - end.z));
     }
 
     private float VCost(Vector3 what, float change) {
+        print("GRAPH7");
         if (what == Vector3.zero)
             return 0;
         if ((what.x == 0 && what.y == 0) || (what.x == 0 && what.z == 0) || (what.y == 0 && what.z == 0))
