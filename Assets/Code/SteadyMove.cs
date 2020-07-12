@@ -7,7 +7,7 @@ public class SteadyMove : MonoBehaviour {
 
     private List<objDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
-    public float tpLength = 1f;
+    public float tpLength = 0.1f;
     public float almostZero = 0.01f;
 
     private class objDestination {
@@ -25,6 +25,8 @@ public class SteadyMove : MonoBehaviour {
         moveQueue = new Dictionary<Ship, List<Vector3>>();
         InvokeRepeating("moveABit", 0f, 0.001f);
     }
+
+    private float moveSpeed; //tmp for saving speed 
 	
 	void moveABit() {
         print("MOVEABIT");
@@ -34,6 +36,7 @@ public class SteadyMove : MonoBehaviour {
                 float timer = Time.time;
                 objDestination objNow = objToMove[i];
                 Vector3 position = objNow.obj.transform.position;
+                moveSpeed = objNow.obj.getSpeed();
 
                 if (++objNow.iteration == 1) {
                     objNow.obj.getObj().transform.LookAt(new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z));
@@ -81,14 +84,14 @@ public class SteadyMove : MonoBehaviour {
                 else objNow.obj.getObj().transform.position = objNow.coords;
 
                 if (objNow.obj.transform.position == objNow.coords) {
-                    //print("MOVED TO: " + objNow.obj.transform.position);
+                    print("MOVED TO: " + objNow.obj.transform.position);
                     objToMove.Remove(objNow);
                     i--;
                     if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
                         objToMove.Add(getNextDest(objNow));
                     }
+                    continue;
                 }
-                print("END MOVE WITH : " + (Time.time - timer));
             }
         }
 	}

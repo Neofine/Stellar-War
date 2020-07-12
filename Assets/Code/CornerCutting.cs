@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CornerCutting : MonoBehaviour {
     public int closeness = 4;
-    public float singleVecLength = 1f;
+    public float singleVecLength = 0.1f;
     public List<Vector3> smoothPath(List<Vector3> path, int howSmooth, Ship ship) {
         if (howSmooth == 0)
             return path;
