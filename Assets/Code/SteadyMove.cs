@@ -32,8 +32,11 @@ public class SteadyMove : MonoBehaviour {
         print("MOVEABIT");
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
+<<<<<<< HEAD
                 print("START MOVE");
                 float timer = Time.time;
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
                 objDestination objNow = objToMove[i];
                 Vector3 position = objNow.obj.transform.position;
                 moveSpeed = objNow.obj.getSpeed();
