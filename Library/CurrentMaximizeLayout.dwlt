@@ -21,6 +21,7 @@ MonoBehaviour:
     y: 30
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 1920
     height: 947
   m_MinSize: {x: 679, y: 492}
@@ -30,6 +31,8 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     width: 1536
     height: 731
   m_MinSize: {x: 679, y: 342}
@@ -37,6 +40,9 @@ MonoBehaviour:
   vertical: 0
   controlID: 2080
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -63,6 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1946
     y: 73
     width: 956
@@ -70,11 +77,16 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     x: 328
     y: 73.6
     width: 764
     height: 408
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -89,7 +101,11 @@ MonoBehaviour:
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_TargetSize: {x: 956, y: 512}
+=======
+  m_TargetSize: {x: 764, y: 387}
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
   m_TargetSize: {x: 764, y: 387}
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -112,6 +128,7 @@ MonoBehaviour:
     vZoomLockedByDefault: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_HBaseRangeMin: -478
     m_HBaseRangeMax: 478
     m_VBaseRangeMin: -256
@@ -119,11 +136,16 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     m_HBaseRangeMin: -305.6
     m_HBaseRangeMax: 305.6
     m_VBaseRangeMin: -154.8
     m_VBaseRangeMax: 154.8
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -146,10 +168,17 @@ MonoBehaviour:
       y: 21
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       width: 956
       height: 512
     m_Scale: {x: 1, y: 1}
     m_Translation: {x: 478, y: 256}
+=======
+      width: 764
+      height: 387
+    m_Scale: {x: 1, y: 1}
+    m_Translation: {x: 382, y: 193.5}
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
       width: 764
       height: 387
@@ -170,6 +199,7 @@ MonoBehaviour:
       serializedVersion: 2
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       x: -478
       y: -256
       width: 956
@@ -180,6 +210,8 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
       x: -382
       y: -193.5
       width: 764
@@ -188,6 +220,9 @@ MonoBehaviour:
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 955, y: 510}
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -217,6 +252,7 @@ MonoBehaviour:
     y: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 1368
     height: 947
   m_MinSize: {x: 403, y: 492}
@@ -226,6 +262,8 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     width: 1094
     height: 731
   m_MinSize: {x: 403, y: 342}
@@ -233,6 +271,9 @@ MonoBehaviour:
   vertical: 1
   controlID: 2081
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -257,6 +298,7 @@ MonoBehaviour:
     y: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 1368
     height: 554
   m_MinSize: {x: 403, y: 221}
@@ -275,6 +317,14 @@ MonoBehaviour:
 <<<<<<< HEAD
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+    width: 1094
+    height: 429
+  m_MinSize: {x: 403, y: 221}
+  m_MaxSize: {x: 8003, y: 4021}
+  vertical: 0
+  controlID: 2061
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 --- !u!114 &5
 MonoBehaviour:
@@ -295,11 +345,14 @@ MonoBehaviour:
     y: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 410
     height: 554
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
 =======
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     width: 328
@@ -335,6 +388,7 @@ MonoBehaviour:
     serializedVersion: 2
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1536
     y: 73
     width: 409
@@ -342,11 +396,16 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     x: 0
     y: 73.6
     width: 327
     height: 408
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -399,8 +458,13 @@ MonoBehaviour:
     y: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 958
     height: 554
+=======
+    width: 766
+    height: 429
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
     width: 766
     height: 429
@@ -577,6 +641,7 @@ MonoBehaviour:
     x: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     y: 554
     width: 1368
     height: 393
@@ -584,6 +649,8 @@ MonoBehaviour:
   m_MaxSize: {x: 10001, y: 10021}
   m_ActualView: {fileID: 11}
 =======
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     y: 429
@@ -622,9 +689,15 @@ MonoBehaviour:
     x: 1536
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     y: 627
     width: 1367
     height: 372
+=======
+    y: 630
+    width: 1367
+    height: 369
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
     y: 630
     width: 1367
@@ -662,9 +735,15 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_SelectedIDs: 66340000
     m_LastClickedID: 13414
     m_ExpandedIDs: 00000000fe32000000ca9a3b
+=======
+    m_SelectedIDs: 1a350000
+    m_LastClickedID: 13594
+    m_ExpandedIDs: 00000000ae340000b0340000
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
     m_SelectedIDs: 1a350000
     m_LastClickedID: 13594
@@ -704,7 +783,11 @@ MonoBehaviour:
     m_LastClickedID: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_ExpandedIDs: 00000000fe320000
+=======
+    m_ExpandedIDs: 00000000ae340000b0340000
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
     m_ExpandedIDs: 00000000ae340000b0340000
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -737,10 +820,13 @@ MonoBehaviour:
   m_ListAreaState:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
 =======
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     m_SelectedInstanceIDs: 30300000
@@ -798,6 +884,7 @@ MonoBehaviour:
     serializedVersion: 2
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1536
     y: 627
     width: 1367
@@ -805,11 +892,16 @@ MonoBehaviour:
 =======
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     x: 0
     y: 502.4
     width: 1093
     height: 281
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
+=======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
@@ -833,11 +925,14 @@ MonoBehaviour:
     y: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 552
     height: 947
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
 =======
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
     width: 442

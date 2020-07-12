@@ -33,8 +33,11 @@ public class SteadyMove : MonoBehaviour {
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 print("START MOVE");
                 float timer = Time.time;
+=======
+>>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
 =======
 >>>>>>> parent of 04a1495... Debugging sudden lags during gameplay
                 objDestination objNow = objToMove[i];
