@@ -22,7 +22,6 @@ public class MultiVarFun {
 
     // given y returns x and z of functions
     public Vector2 calculate(float point) {
-        MonoBehaviour.print("FUN1");
         return new Vector2(ax * point + bx, az * point + bz);
     }
     
