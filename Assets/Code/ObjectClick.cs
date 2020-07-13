@@ -16,7 +16,6 @@ public class ObjectClick : MonoBehaviour {
 	}
 
     private GameObject ShootLaser(Ray ray) {
-        print("OBJCLICK1");
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 10000000.0f)) {
             if (hit.transform != null) {
@@ -27,12 +26,10 @@ public class ObjectClick : MonoBehaviour {
     }
 
     private bool isEmpty() {
-        print("OBJCLICK2");
         return (objHighlighted.Count == 0);
     }
 
     private void Highglight(GameObject objClicked) {
-        print("OBJCLICK3");
         if (objClicked == null)
             return;
         Renderer rend = objClicked.GetComponent<MeshRenderer>();
@@ -55,7 +52,6 @@ public class ObjectClick : MonoBehaviour {
     }
 
     private void HighlightMulti(Vector3 start, Vector3 end) {
-        print("OBJCLICK4");
         float xSmall, xBig, ySmall, yBig;
         xSmall = Useful.min(start.x, end.x);
         xBig = Useful.max(start.x, end.x);
@@ -63,7 +59,6 @@ public class ObjectClick : MonoBehaviour {
         yBig = Useful.max(start.z, end.z);
 
         foreach (Ship ship in Game.getMovableObj()) {
-            print("OBJCLICK5");
             Vector3 pos = ship.getObj().transform.position;
             float xs, xb, ys, yb;
             xs = ClickCoords.getXSpec(pos, new Vector3(xSmall, 0f, yBig));
@@ -77,7 +72,6 @@ public class ObjectClick : MonoBehaviour {
     }
 
     public bool doFit(Vector3 point, MultiVarFun TL, MultiVarFun BR) {
-        print("OBJCLICK6");
         Vector2 TLres = TL.calculate(point.y);
         Vector2 BRres = BR.calculate(point.y);
         // here BRres.x means x coordinates, but BRres.y means <<Z COORDINATES>>
@@ -95,7 +89,6 @@ public class ObjectClick : MonoBehaviour {
 
     void Update () {
         float timeBetween = Time.time - timer;
-        print("OBJCLICK7");
         if (Input.GetMouseButtonDown(0)) {
             timer = Time.time;
             onWatch = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
@@ -120,7 +113,6 @@ public class ObjectClick : MonoBehaviour {
 
     private void OnGUI() {
         if (drawBox) {
-            print("OBJCLICK8");
             float  width, height;
             width = Useful.abs(pixStart.x - pixEnd.x);
             height = Useful.abs(pixStart.y - pixEnd.y);
@@ -130,7 +122,6 @@ public class ObjectClick : MonoBehaviour {
     }
 
     public List<Ship> getObjHighlighted() {
-        print("OBJCLICK9");
         return objHighlighted;
     }
 }

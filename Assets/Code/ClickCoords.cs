@@ -4,7 +4,6 @@ using UnityEngine;
 
 public static class ClickCoords {
     public static Vector3 getCords() {
-        MonoBehaviour.print("CLICKCORDS");
         Plane plane = new Plane(Vector3.up, 0f);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         float planeDst;
@@ -15,34 +14,29 @@ public static class ClickCoords {
     }
     
     public static Vector3 cameraCoords() {
-        MonoBehaviour.print("CLICKCORDS1");
         Vector3 startPos = Input.mousePosition;
         return Camera.main.ScreenToWorldPoint(startPos);
     }
 
     public static float getX(Vector3 shipPos, Vector3 laserShot) {
-        MonoBehaviour.print("CLICKCORDS2");
         Vector3 camPos = cameraCoords();
         float perpd = camPos.x;
         return camPos.x + ((laserShot.x - perpd) / camPos.y * (camPos.y - Game.getMesh().getHeight()));
     }
 
     public static float getZ(Vector3 shipPos, Vector3 laserShot) {
-        MonoBehaviour.print("CLICKCORDS3");
         Vector3 camPos = cameraCoords();
         float perpd = camPos.z;
         return camPos.z + ((laserShot.z - perpd) / camPos.y * (camPos.y - Game.getMesh().getHeight()));
     }
 
     public static float getXSpec(Vector3 shipPos, Vector3 laserShot) {
-        MonoBehaviour.print("CLICKCORDS4");
         Vector3 camPos = cameraCoords();
         float perpd = camPos.x;
         return camPos.x + ((laserShot.x - perpd) / camPos.y * (camPos.y - shipPos.y));
     }
 
     public static float getZSpec(Vector3 shipPos, Vector3 laserShot) {
-        MonoBehaviour.print("CLICKCORDS5");
         Vector3 camPos = cameraCoords();
         float perpd = camPos.z;
         return camPos.z + ((laserShot.z - perpd) / camPos.y * (camPos.y - shipPos.y));

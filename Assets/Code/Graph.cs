@@ -49,14 +49,10 @@ public class Graph : MonoBehaviour {
     }
 
     private bool isBlocked(Vector3 what) {
-        print("GRAPH");
-        if (what.x * what.x + what.y * what.y + what.z * what.z <= 70 * 70)
-            return true;
-        return false;
+        return (what.x * what.x + what.y * what.y + what.z * what.z <= 70 * 70);
     }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
-        print("GRAPH1");
         if (isBlocked(end) || isBlocked(start))
             return null;
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
@@ -64,44 +60,54 @@ public class Graph : MonoBehaviour {
         float minCost = vecLength(start, end);
 
         queue.Add(new Tuple<float, Point> (minCost, new Point(start, 0f, minCost, null)));
-        cost.Add(start, minCost);
-
+        cost.Add(start, 0);
+        int iteration = 0;
         while (queue.Count != 0) {
-            print("GRAPH2");
-
+            print("ITERATION NR + " + (++iteration));
+            //print("JUST CHILLIN");
             Tuple<float, Point> examined = queue.Min;
             Vector3 inPoint = examined.Item2.point;
             queue.Remove(examined);
 
+            if (!cost.ContainsKey(inPoint) || cost[inPoint] != examined.Item2.fromStart) {
+                print("OLOL");
+                continue;
+            }
+
             if (vecLength(inPoint, end) <= routePrecision) {
+
                 if (routePrecision <= 1)
                     return extractPath(start, examined.Item2);
                 List<Vector3> now = extractPath(start, examined.Item2);
                 List<Vector3> close = planRoute(inPoint, end, routePrecision / 2, ship);
+                if (close == null)
+                    return null;
                 close.AddRange(now);
 
                 return close;
             }
-                
-            if (cost.ContainsKey(inPoint) && cost[inPoint] != examined.Item1)
-                continue;
 
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int z = -1; z <= 1; z++) {
-                        print("GRAPH3");
                         Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
-
-                        if (isBlocked(newVector) || newVector == inPoint || !Game.getCompressingRoad().noObjectOnWay(inPoint, newVector, ship))
+                        
+                        if (isBlocked(newVector) || newVector == inPoint)
                             continue;
                         float toEnd = vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);
                         Point newPoint = new Point(newVector, costToStart, toEnd, examined.Item2);
 
-                        cost.Remove(newVector);
-                        cost.Add(newVector, costToStart + toEnd);
-                        queue.Add(new Tuple<float, Point>(costToStart + toEnd, newPoint));
+                        if (cost.ContainsKey(newVector) && cost[newVector] > costToStart) {
+                            cost.Remove(newVector);
+                            cost.Add(newVector, costToStart);
+                            queue.Add(new Tuple<float, Point>(costToStart + toEnd, newPoint));
+                        }
+                        else if (!cost.ContainsKey(newVector)) {
+                            cost.Add(newVector, costToStart);
+                            queue.Add(new Tuple<float, Point>(costToStart + toEnd, newPoint));
+                        }
                     }
                 }
             }
@@ -110,11 +116,10 @@ public class Graph : MonoBehaviour {
     }
 
     private List<Vector3> extractPath(Vector3 start, Point end) {
-        print("GRAPH4");
         List<Vector3> path = new List<Vector3>();
         Point now = end;
         while (now.point != start) {
-            print("GRAPH5");
+            //print("JK");
             path.Add(now.point);
             now = now.cameFrom;
         }
@@ -123,12 +128,10 @@ public class Graph : MonoBehaviour {
     }
 
     public float vecLength(Vector3 start, Vector3 end) {
-        print("GRAPH6");
         return (float)Math.Sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y) + (start.z - end.z) * (start.z - end.z));
     }
 
     private float VCost(Vector3 what, float change) {
-        print("GRAPH7");
         if (what == Vector3.zero)
             return 0;
         if ((what.x == 0 && what.y == 0) || (what.x == 0 && what.z == 0) || (what.y == 0 && what.z == 0))
