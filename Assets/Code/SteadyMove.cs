@@ -27,10 +27,11 @@ public class SteadyMove : MonoBehaviour {
     }
 	
 	void moveABit() {
+        print("MOVEABIT");
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
-                float timer = Time.time;
                 print("START MOVE");
+                float timer = Time.time;
                 objDestination objNow = objToMove[i];
                 Vector3 position = objNow.obj.transform.position;
 
@@ -54,6 +55,7 @@ public class SteadyMove : MonoBehaviour {
                     float rest = tpLength - Game.getGraph().vecLength(objNow.coords, position);
                     objNow.obj.getObj().transform.position = objNow.coords;
                     while (rest > almostZero) {
+                        print("STDREST");
                         if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
                             objToMove.RemoveAt(i);
                             objNow = getNextDest(objNow);
@@ -98,6 +100,7 @@ public class SteadyMove : MonoBehaviour {
     }
 
     public void queueMove(List <Vector3> queue, Ship onWhat) {
+        print("QUEUEMOVE");
         if (moveQueue.ContainsKey(onWhat))
             moveQueue.Remove(onWhat);
         Vector3 firstDirection = queue.First();
@@ -108,6 +111,7 @@ public class SteadyMove : MonoBehaviour {
 
     public void move(Ship obj, Vector3 coords) {
         for (int i = 0; i < objToMove.Count; i++) {
+            print("STDMOVE");
             if (objToMove[i].obj == obj) {
                 objToMove.Remove(objToMove[i]);
                 i--;

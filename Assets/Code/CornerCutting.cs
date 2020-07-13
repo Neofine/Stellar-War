@@ -12,12 +12,14 @@ public class CornerCutting : MonoBehaviour {
         List<Tuple<Vector3, Vector3>> added = new List<Tuple<Vector3, Vector3>>();
 
         for (int i = 0; i < path.Count - 2; i++) {
+            print("CORNERCUT");
             Vector3 first = path[i];
             Vector3 second = path[i + 1];
             Vector3 third = path[i + 2];
             int tmpCloseness = closeness;
             Vector3 thrQuarters, quarter2;
             do {
+                print("CORNERCUT1");
                 Vector3 diff = second - first;
                 thrQuarters = second - diff / tmpCloseness;
 
@@ -31,6 +33,7 @@ public class CornerCutting : MonoBehaviour {
         int addIdx = 0, cutIdx = 0;
 
         while(addIdx != added.Count) {
+            print("CORNERCUT2");
             cutIdx++;
             if (Game.getCompressingRoad().noObjectOnWay(added[addIdx].Item1, added[addIdx].Item2, ship) && Game.getGraph().vecLength(added[addIdx].Item1, added[addIdx].Item2) > singleVecLength) {
                 path.RemoveAt(cutIdx);

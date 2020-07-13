@@ -10,7 +10,9 @@ public class CompressingRoad : MonoBehaviour{
         Vector3 now = ship.gameObject.transform.position;
         int idx = 1;
         while (now != road[road.Count - 1]) {
+            print("COMPRESS");
             while (idx <= road.Count - 1 && noObjectOnWay(now, road[idx], ship)) {
+                print("COMPRESS1");
                 idx++;
             }
             now = road[idx - 1];
@@ -29,6 +31,7 @@ public class CompressingRoad : MonoBehaviour{
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
+                    print("COMPRESS2");
                     RaycastHit hit;
                     Vector3 newVec = new Vector3(x * neverTouch / 2, y * neverTouch / 2, z * neverTouch / 2);
                     if (Physics.Linecast(start + newVec, end + newVec, out hit) && hit.collider.gameObject != ship.getObj()) {
