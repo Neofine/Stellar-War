@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -25,12 +24,12 @@ public class SteadyMove : MonoBehaviour {
         moveQueue = new Dictionary<Ship, List<Vector3>>();
         InvokeRepeating("moveABit", 0f, 0.001f);
     }
+
+    float debugTimer;
 	
 	void moveABit() {
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
-                float timer = Time.time;
-                //print("START MOVE");
                 objDestination objNow = objToMove[i];
                 Vector3 position = objNow.obj.transform.position;
 
@@ -84,6 +83,7 @@ public class SteadyMove : MonoBehaviour {
                     if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
                         objToMove.Add(getNextDest(objNow));
                     }
+                    else print("AUTO PILOT END IN: " + (Time.time - debugTimer));
                 }
             }
         }
@@ -96,6 +96,7 @@ public class SteadyMove : MonoBehaviour {
     }
 
     public void queueMove(List <Vector3> queue, Ship onWhat) {
+        debugTimer = Time.time;
         if (moveQueue.ContainsKey(onWhat))
             moveQueue.Remove(onWhat);
         Vector3 firstDirection = queue.First();

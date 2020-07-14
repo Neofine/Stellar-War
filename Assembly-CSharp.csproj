@@ -67,7 +67,6 @@
     <Compile Include="Assets\Code\ClickCoords.cs" />
     <Compile Include="Assets\Code\CompressingRoad.cs" />
     <Compile Include="Assets\Code\CornerCutting.cs" />
-    <Compile Include="Assets\Code\Function.cs" />
     <Compile Include="Assets\Code\Game.cs" />
     <Compile Include="Assets\Code\Graph.cs" />
     <Compile Include="Assets\Code\Mesh.cs" />

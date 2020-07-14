@@ -49,37 +49,36 @@ public class Graph : MonoBehaviour {
     }
 
     private bool isBlocked(Vector3 what) {
-        return (what.x * what.x + what.y * what.y + what.z * what.z <= 70 * 70);
+        return (what.x * what.x + what.y * what.y + what.z * what.z <= 80 * 80);
     }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
-        if (isBlocked(end) || isBlocked(start))
+        Vector3 smallV = new Vector3(1f, 1f, 1f);
+        if (isBlocked(end) || isBlocked(start) || !Game.getCompressingRoad().noObjectOnWay(end, end + smallV, ship)) {
+            print("SMTH WRONG");
             return null;
+        }
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
         float minCost = vecLength(start, end);
 
         queue.Add(new Tuple<float, Point> (minCost, new Point(start, 0f, minCost, null)));
         cost.Add(start, 0);
-        int iteration = 0;
         while (queue.Count != 0) {
-            print("ITERATION NR + " + (++iteration));
-            //print("JUST CHILLIN");
             Tuple<float, Point> examined = queue.Min;
             Vector3 inPoint = examined.Item2.point;
             queue.Remove(examined);
 
             if (!cost.ContainsKey(inPoint) || cost[inPoint] != examined.Item2.fromStart) {
-                print("OLOL");
                 continue;
             }
 
-            if (vecLength(inPoint, end) <= routePrecision) {
+            if (vecLength(inPoint, end) <= 3 * routePrecision) {
 
-                if (routePrecision <= 1)
+                if (routePrecision <= 5)
                     return extractPath(start, examined.Item2);
                 List<Vector3> now = extractPath(start, examined.Item2);
-                List<Vector3> close = planRoute(inPoint, end, routePrecision / 2, ship);
+                List<Vector3> close = planRoute(inPoint, end, routePrecision / 5, ship);
                 if (close == null)
                     return null;
                 close.AddRange(now);
@@ -90,9 +89,11 @@ public class Graph : MonoBehaviour {
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int z = -1; z <= 1; z++) {
+                        if (x != 0 && y != 0 && z != 0)
+                            continue;
                         Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
-                        
+                        // || !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship)
                         if (isBlocked(newVector) || newVector == inPoint)
                             continue;
                         float toEnd = vecLength(newVector, end);
