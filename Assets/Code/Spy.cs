@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spy : Ship {
     void Start() {
-        speed = 20f;
+        speed = 1.5f;
     }
 
     public override string toString() {

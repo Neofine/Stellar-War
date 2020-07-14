@@ -6,7 +6,7 @@ public class SteadyMove : MonoBehaviour {
 
     private List<objDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
-    public float tpLength = 1f;
+    public float tpLength;
     public float almostZero = 0.01f;
 
     private class objDestination {
@@ -22,15 +22,15 @@ public class SteadyMove : MonoBehaviour {
     void Start () {
         objToMove = new List<objDestination>();
         moveQueue = new Dictionary<Ship, List<Vector3>>();
-        InvokeRepeating("moveABit", 0f, 0.001f);
+        tpLength = 3f;
     }
 
     float debugTimer;
-	
-	void moveABit() {
+	void Update() {
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
                 objDestination objNow = objToMove[i];
+                tpLength = objNow.obj.getSpeed() * Time.deltaTime * 60;
                 Vector3 position = objNow.obj.transform.position;
 
                 if (++objNow.iteration == 1) {

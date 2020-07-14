@@ -20,6 +20,7 @@ public class Movable : MonoBehaviour {
                         continue;
 
                     Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
+                    //Vector3 end = new Vector3(-300, 0, 400);
                     List<Vector3> route = new List<Vector3>();
                     float timer = Time.time;
                     route = Game.getGraph().planRoute(position, end, 1000, obj);

@@ -11,7 +11,15 @@ public static class Game {
     private static Graph graph = GameObject.Find("GameObject").GetComponent<Graph>();
     private static CompressingRoad compRoad = GameObject.Find("GameObject").GetComponent<CompressingRoad>();
     private static CornerCutting cornCut = GameObject.Find("GameObject").GetComponent<CornerCutting>();
+    private static CircularMove circMove = GameObject.Find("GameObject").GetComponent<CircularMove>();
     private static List<Ship> movableObj = new List<Ship>();
+    private static List<Planet> planets = new List<Planet>();
+
+
+
+    static public CircularMove getCircularMove() {
+        return circMove;
+    }
 
     static public CornerCutting getCornerCutting() {
         return cornCut;
@@ -39,6 +47,14 @@ public static class Game {
 
     static public List<Ship> getMovableObj() {
         return movableObj;
+    }
+
+    static public List<Planet> getPlanets() {
+        return planets;
+    }
+
+    static public void addPlanet(Planet planet) {
+        planets.Add(planet);
     }
 
     static public void addShip(Ship ship) {
