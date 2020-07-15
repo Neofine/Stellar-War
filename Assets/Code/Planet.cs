@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +12,10 @@ public class Planet : MonoBehaviour
     private GameObject obj;
 
     void Start() {
-        radiusAroudSun = 300f;
-        planetRadius = 300f;
+        radiusAroudSun = 150f;
+        
         angle = 0f;
-        speed = 2 * Mathf.PI / 10;  
+        speed = 2 * Mathf.PI / 60;  
     }
 
     void makeObj() {
@@ -25,6 +26,12 @@ public class Planet : MonoBehaviour
         if (obj == null) {
             makeObj();
             Game.addPlanet(this);
+            
+            float width = this.GetComponent<Collider>().bounds.size.x;
+            float height = this.GetComponent<Collider>().bounds.size.y;
+            float length = this.GetComponent<Collider>().bounds.size.z;
+            planetRadius = Math.Max(width, Math.Max(height, length));
+            print("RADIUS IS " + planetRadius);
         }
     }
 
@@ -36,16 +43,13 @@ public class Planet : MonoBehaviour
         return angle;
     }
 
-    public float getRadius() {
-        return planetRadius;
-    }
-
     public GameObject getObj() {
         return obj;
     }
 
     public void addToAngle(float amount) {
         angle += amount;
+        angle %= 360;
     }
 
     public float getRadSun() {

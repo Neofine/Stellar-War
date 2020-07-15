@@ -49,6 +49,12 @@ public class Graph : MonoBehaviour {
     }
 
     private bool isBlocked(Vector3 what) {
+        foreach (Planet planet in Game.getPlanets()) {
+            Vector3 plnPos = planet.getObj().transform.position;
+            float radius = planet.getRadPln() + 30;
+            if ((what.x - plnPos.x) * (what.x - plnPos.x) + (what.y - plnPos.y) * (what.y - plnPos.y) + (what.z - plnPos.z) * (what.z - plnPos.z) <= radius * radius)
+                return true;
+        }
         return (what.x * what.x + what.y * what.y + what.z * what.z <= 80 * 80);
     }
  
