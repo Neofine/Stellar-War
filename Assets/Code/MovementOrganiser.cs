@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movable : MonoBehaviour {
+public class MovementOrganiser : MonoBehaviour {
     private int roadSmoothness = 6;
     void Update() {
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) {
@@ -20,24 +20,34 @@ public class Movable : MonoBehaviour {
                         continue;
 
                     Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
-                    //Vector3 end = new Vector3(-300, 0, 400);
-                    List<Vector3> route = new List<Vector3>();
-                    float timer = Time.time;
-                    route = Game.getGraph().planRoute(position, end, 1000, obj);
-
-                    if (route != null && route.Count != 0) { 
-                        route.Reverse();
-                        route = Game.getCompressingRoad().compress(obj, route);
-                        route = Game.getCornerCutting().smoothPath(route, roadSmoothness, obj);
-                        if (route.Count != 0) {
-                            Game.getStdMove().queueMove(route, obj);
-                        }
-                        else print("XDDDD");
-                    }
-                    else
-                      print("NOT FOUND!");
+                    calcRoute(obj, end);
                 }
             }
+        }
+    }
+
+    private void calcRoute(Ship ship, Vector3 destination) {
+        List<Vector3> route;
+        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 1000, ship);
+
+        if (route != null && route.Count != 0) {
+            route.Reverse();
+            route = Game.getCompressingRoad().compress(ship, route);
+             route = Game.getCornerCutting().smoothPath(route, roadSmoothness, ship);
+            if (route.Count != 0) {
+                Game.getStdMove().queueMove(route, ship);
+            }
+            else print("XDDDD");
+        }
+        else
+            print("NOT FOUND!");
+    }
+
+    public void recalcPath(Ship ship) {
+        Vector3 destination = Game.getStdMove().getDest(ship);
+        if (destination != Vector3.zero) {
+            print("RECALCULATING GOES BRRRR");
+            calcRoute(ship, destination);
         }
     }
 }

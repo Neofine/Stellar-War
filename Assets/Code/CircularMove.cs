@@ -10,9 +10,7 @@ public class CircularMove : MonoBehaviour {
         if (Input.GetKeyDown("f"))
             stopPlanets = !stopPlanets;
         if (!stopPlanets) {
-            print(Game.getPlanets().Count);
             foreach (Planet planet in Game.getPlanets()) {
-                print("WORKS");
                 planet.addToAngle(planet.getSpeed() * Time.deltaTime);
                 float x = (float)Math.Cos(planet.getAngle()) * planet.getRadSun();
                 float z = (float)Math.Sin(planet.getAngle()) * planet.getRadSun();

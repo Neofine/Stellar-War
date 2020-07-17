@@ -12,10 +12,13 @@ public static class Game {
     private static CompressingRoad compRoad = GameObject.Find("GameObject").GetComponent<CompressingRoad>();
     private static CornerCutting cornCut = GameObject.Find("GameObject").GetComponent<CornerCutting>();
     private static CircularMove circMove = GameObject.Find("GameObject").GetComponent<CircularMove>();
+    private static MovementOrganiser movOrg = GameObject.Find("GameObject").GetComponent<MovementOrganiser>();
     private static List<Ship> movableObj = new List<Ship>();
     private static List<Planet> planets = new List<Planet>();
 
-
+    static public MovementOrganiser getMovOrg() {
+        return movOrg;
+    }
 
     static public CircularMove getCircularMove() {
         return circMove;

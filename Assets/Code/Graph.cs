@@ -10,8 +10,6 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Graph : MonoBehaviour {
 
-    private List<Vector3> forbidden;
-
     private class Point{
         public Vector3 point;
         public Point cameFrom;
@@ -44,24 +42,24 @@ public class Graph : MonoBehaviour {
 		
 	}
 
-    public void forbid(Vector3 from, Vector3 to) {
-
-    }
-
     private bool isBlocked(Vector3 what) {
         foreach (Planet planet in Game.getPlanets()) {
             Vector3 plnPos = planet.getObj().transform.position;
             float radius = planet.getRadPln() + 30;
-            if ((what.x - plnPos.x) * (what.x - plnPos.x) + (what.y - plnPos.y) * (what.y - plnPos.y) + (what.z - plnPos.z) * (what.z - plnPos.z) <= radius * radius)
+            float xsquared = (what.x - plnPos.x) * (what.x - plnPos.x);
+            float ysquared = (what.y - plnPos.y) * (what.y - plnPos.y);
+            float zsquared = (what.z - plnPos.z) * (what.z - plnPos.z);
+            //print(what + " " + plnPos + " " + (xsquared + ysquared + zsquared) + " " + (radius * radius));
+            if (xsquared + ysquared + zsquared <= radius * radius)
                 return true;
         }
-        return (what.x * what.x + what.y * what.y + what.z * what.z <= 80 * 80);
+        return false;
     }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
         Vector3 smallV = new Vector3(1f, 1f, 1f);
         if (isBlocked(end) || isBlocked(start) || !Game.getCompressingRoad().noObjectOnWay(end, end + smallV, ship)) {
-            print("SMTH WRONG");
+            print("WRONG END");
             return null;
         }
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
@@ -95,12 +93,10 @@ public class Graph : MonoBehaviour {
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
                     for (int z = -1; z <= 1; z++) {
-                        if (x != 0 && y != 0 && z != 0)
-                            continue;
                         Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
-                        // || !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship)
-                        if (isBlocked(newVector) || newVector == inPoint)
+                        // 
+                        if (isBlocked(newVector) || newVector == inPoint || !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship))
                             continue;
                         float toEnd = vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);

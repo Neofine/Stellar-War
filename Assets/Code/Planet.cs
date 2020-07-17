@@ -11,13 +11,6 @@ public class Planet : MonoBehaviour
     protected float angle;
     private GameObject obj;
 
-    void Start() {
-        radiusAroudSun = 150f;
-        
-        angle = 0f;
-        speed = 2 * Mathf.PI / 60;  
-    }
-
     void makeObj() {
         obj = this.gameObject;
     }
@@ -30,7 +23,7 @@ public class Planet : MonoBehaviour
             float width = this.GetComponent<Collider>().bounds.size.x;
             float height = this.GetComponent<Collider>().bounds.size.y;
             float length = this.GetComponent<Collider>().bounds.size.z;
-            planetRadius = Math.Max(width, Math.Max(height, length));
+            planetRadius = Math.Max(width, Math.Max(height, length)) / 2;
             print("RADIUS IS " + planetRadius);
         }
     }
@@ -58,5 +51,10 @@ public class Planet : MonoBehaviour
 
     public float getRadPln() {
         return planetRadius;
+    }
+
+    private void OnTriggerEnter(Collider collider) {
+        Ship ship = collider.gameObject.GetComponent<Ship>();
+        Game.getMovOrg().recalcPath(ship);
     }
 }

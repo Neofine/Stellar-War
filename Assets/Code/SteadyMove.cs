@@ -34,11 +34,7 @@ public class SteadyMove : MonoBehaviour {
                 Vector3 position = objNow.obj.transform.position;
 
                 if (++objNow.iteration == 1) {
-                    objNow.obj.getObj().transform.LookAt(new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z));
-                    objNow.obj.getObj().transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
-                    if (objNow.obj.toString() == "spy") {
-                        objNow.obj.getObj().transform.Rotate(new Vector3(0f, 0f, 180f), Space.Self);
-                    }
+                    objNow.obj.transform.rotation = giveRotation(position, objNow.coords, objNow.obj);
                 }
 
                 // making a move by a fixed length, so going straight forward and
@@ -89,6 +85,14 @@ public class SteadyMove : MonoBehaviour {
         }
 	}
 
+    public Quaternion giveRotation(Vector3 position, Vector3 destination, Ship obj) {
+        Quaternion answer = Quaternion.LookRotation(destination - position);
+        answer.x -= 90f;
+        if (obj.toString() == "spy") {
+            answer.z += 180f;
+        }
+        return answer;
+    }
     private objDestination getNextDest(objDestination examined) {
         objDestination ans = new objDestination(examined.obj, moveQueue[examined.obj].First());
         moveQueue[examined.obj].Remove(moveQueue[examined.obj].First());
@@ -103,6 +107,13 @@ public class SteadyMove : MonoBehaviour {
         queue.Remove(queue.First());
         move(onWhat, firstDirection);
         moveQueue.Add(onWhat, queue);
+    }
+
+    public Vector3 getDest(Ship ship) {
+        if (moveQueue.ContainsKey(ship) && moveQueue[ship].Count != 0) {
+            return moveQueue[ship][moveQueue[ship].Count - 1];
+        }
+        return Vector3.zero;
     }
 
     public void move(Ship obj, Vector3 coords) {

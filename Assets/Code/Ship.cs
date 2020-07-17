@@ -29,4 +29,5 @@ public abstract class Ship : MonoBehaviour {
     }
 
     public abstract string toString();
+    
 }
