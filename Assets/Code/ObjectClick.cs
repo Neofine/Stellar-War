@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ObjectClick : MonoBehaviour {
@@ -36,6 +37,7 @@ public class ObjectClick : MonoBehaviour {
             rend.material.shader = outline;
             if (isEmpty()) {
                 meanHeight = objClicked.transform.position.y;
+                print(Game.getMesh());
                 Game.getMesh().spawn(meanHeight);
             }
             objHighlighted.Add(objClicked.GetComponent<Ship>());
@@ -86,11 +88,19 @@ public class ObjectClick : MonoBehaviour {
     private bool drawBox = false;
 
     void Update () {
+        if (Game.getInspectMode())
+            return;
         float timeBetween = Time.time - timer;
         if (Input.GetMouseButtonDown(0)) {
-            timer = Time.time;
             onWatch = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             startCoursor = ClickCoords.getCords();
+            if (timeBetween <= 0.2f && onWatch.GetComponent<Clickable>().isPlanet()) {
+                Planet planet = onWatch.GetComponent<Planet>();
+                print("HERERERE");
+                print(planet.ToString());
+                Game.getScnLoad().loadScene(planet.getNumber().ToString(), planet);
+            }
+            timer = Time.time;
             pixStart = Input.mousePosition;
         }
         else if (Input.GetMouseButton(0) && timeBetween >= 0.2f) {
@@ -100,7 +110,8 @@ public class ObjectClick : MonoBehaviour {
         }
         else if (Input.GetMouseButtonUp(0)) {
             if (timeBetween < 0.2f) {
-                Highglight(onWatch);
+                if (onWatch.GetComponent<Clickable>().isShip())
+                   Highglight(onWatch);
             }
             else {
                 drawBox = false;

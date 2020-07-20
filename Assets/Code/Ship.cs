@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Ship : MonoBehaviour {
+public abstract class Ship : MonoBehaviour, Clickable {
 
     private GameObject obj;
     protected float speed;
@@ -29,5 +29,12 @@ public abstract class Ship : MonoBehaviour {
     }
 
     public abstract string toString();
-    
+
+    public bool isShip() {
+        return true;
+    }
+
+    public bool isPlanet() {
+        return false;
+    }
 }

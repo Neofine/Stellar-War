@@ -4,17 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Game {
-    //public static Game game;
+
     private static ObjectClick objClick = GameObject.Find("Main Camera").GetComponent<ObjectClick>();
     private static SteadyMove stdMove = GameObject.Find("GameObject").GetComponent<SteadyMove>();
-    private static Mesh mesh = GameObject.Find("GameObject").GetComponent<Mesh>();
+    private static Mesh meshClass = GameObject.Find("GameObject").GetComponent<Mesh>();
     private static Graph graph = GameObject.Find("GameObject").GetComponent<Graph>();
     private static CompressingRoad compRoad = GameObject.Find("GameObject").GetComponent<CompressingRoad>();
     private static CornerCutting cornCut = GameObject.Find("GameObject").GetComponent<CornerCutting>();
     private static CircularMove circMove = GameObject.Find("GameObject").GetComponent<CircularMove>();
     private static MovementOrganiser movOrg = GameObject.Find("GameObject").GetComponent<MovementOrganiser>();
+    private static SceneLoader scnLoad = GameObject.Find("GameObject").GetComponent<SceneLoader>();
     private static List<Ship> movableObj = new List<Ship>();
     private static List<Planet> planets = new List<Planet>();
+    private static bool inspectMode = false;
+
+    static public bool getInspectMode() {
+        return inspectMode;
+    }
+
+    static public void inspectModeOff() {
+        inspectMode = false;
+    }
+
+    static public void inspectModeOn() {
+        inspectMode = true;
+    }
+    static public SceneLoader getScnLoad() {
+        return scnLoad;
+    }
 
     static public MovementOrganiser getMovOrg() {
         return movOrg;
@@ -41,7 +58,9 @@ public static class Game {
     }
 
     static public Mesh getMesh() {
-        return mesh;
+        if (meshClass == null)
+            meshClass = GameObject.Find("GameObject").GetComponent<Mesh>();
+        return meshClass;
     }
 
     static public SteadyMove getStdMove() {
@@ -58,6 +77,10 @@ public static class Game {
 
     static public void addPlanet(Planet planet) {
         planets.Add(planet);
+    }
+
+    static public int getNumber() {
+        return planets.Count;
     }
 
     static public void addShip(Ship ship) {

@@ -38,10 +38,6 @@ public class Graph : MonoBehaviour {
         }
     }
 
-    void Start () {
-		
-	}
-
     private bool isBlocked(Vector3 what) {
         foreach (Planet planet in Game.getPlanets()) {
             Vector3 plnPos = planet.getObj().transform.position;
@@ -58,7 +54,7 @@ public class Graph : MonoBehaviour {
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
         Vector3 smallV = new Vector3(1f, 1f, 1f);
-        if (isBlocked(end) || isBlocked(start) || !Game.getCompressingRoad().noObjectOnWay(end, end + smallV, ship)) {
+        if (isBlocked(end) || isBlocked(start)) {
             print("WRONG END");
             return null;
         }
@@ -95,8 +91,8 @@ public class Graph : MonoBehaviour {
                     for (int z = -1; z <= 1; z++) {
                         Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
-                        // 
-                        if (isBlocked(newVector) || newVector == inPoint || !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship))
+                        // !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship)
+                        if (isBlocked(newVector) || newVector == inPoint)
                             continue;
                         float toEnd = vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);
@@ -144,4 +140,17 @@ public class Graph : MonoBehaviour {
         }
         return change * (float)Math.Sqrt(3);
     }
+
+    /*private Vector3 findClosestNotBlocked(Vector3 start, Vector3 blocked) {
+        foreach (Planet planet in Game.getPlanets()) {
+            Vector3 plnPos = planet.getObj().transform.position;
+            float radius = planet.getRadPln() + 30;
+            float xsquared = (blocked.x - plnPos.x) * (blocked.x - plnPos.x);
+            float ysquared = (blocked.y - plnPos.y) * (blocked.y - plnPos.y);
+            float zsquared = (blocked.z - plnPos.z) * (blocked.z - plnPos.z);
+            if (xsquared + ysquared + zsquared <= radius * radius)
+                return true;
+        }
+        return false;
+    }*/
 }

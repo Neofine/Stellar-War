@@ -28,7 +28,7 @@ public class MovementOrganiser : MonoBehaviour {
 
     private void calcRoute(Ship ship, Vector3 destination) {
         List<Vector3> route;
-        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 1000, ship);
+        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 50, ship);
 
         if (route != null && route.Count != 0) {
             route.Reverse();
@@ -37,16 +37,12 @@ public class MovementOrganiser : MonoBehaviour {
             if (route.Count != 0) {
                 Game.getStdMove().queueMove(route, ship);
             }
-            else print("XDDDD");
         }
-        else
-            print("NOT FOUND!");
     }
 
     public void recalcPath(Ship ship) {
         Vector3 destination = Game.getStdMove().getDest(ship);
         if (destination != Vector3.zero) {
-            print("RECALCULATING GOES BRRRR");
             calcRoute(ship, destination);
         }
     }

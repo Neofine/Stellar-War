@@ -11,6 +11,8 @@ public class CircularMove : MonoBehaviour {
             stopPlanets = !stopPlanets;
         if (!stopPlanets) {
             foreach (Planet planet in Game.getPlanets()) {
+                if (planet.getRadSun() == 0)
+                    continue;
                 planet.addToAngle(planet.getSpeed() * Time.deltaTime);
                 float x = (float)Math.Cos(planet.getAngle()) * planet.getRadSun();
                 float z = (float)Math.Sin(planet.getAngle()) * planet.getRadSun();

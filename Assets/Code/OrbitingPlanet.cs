@@ -7,7 +7,7 @@ public class OrbitingPlanet : Planet {
     void Start() {
         radiusAroudSun = 150f;
 
-        angle = 0f;
-        speed = 2 * Mathf.PI / 60;
+        angle = Random.Range(0, 360f);
+        speed = 2 * Mathf.PI / Random.Range(60, 120f);
     }
 }

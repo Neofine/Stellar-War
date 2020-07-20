@@ -7,7 +7,6 @@ public class Mesh : MonoBehaviour{
     private GameObject spawned;
 	public void spawn(float y) {
         spawned = MonoBehaviour.Instantiate(mesh, new Vector3(0f, y, 0f), Quaternion.identity);
-        spawned.transform.Rotate(90f, 0f, 0f);
     }
 
     public void destroy() {
@@ -21,7 +20,7 @@ public class Mesh : MonoBehaviour{
 
     private void Update() {
         if (mesh == null) {
-            mesh = GameObject.Find("siatka2");
+            mesh = GameObject.Find("mesh");
         }
         if (spawned != null && Input.GetKey(KeyCode.LeftControl)) {
             changePosition(Input.mouseScrollDelta.y);

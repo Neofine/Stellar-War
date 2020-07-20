@@ -56,9 +56,19 @@ public class CompressingRoad : MonoBehaviour{
         Vector3 min = rend.bounds.min;
         Vector3 pos = ship.getObj().transform.position;
 
-        //ship.getObj().transform.rotation = saved;
+        RaycastHit hit;
+        if (Physics.Linecast(start, end, out hit) && hit.collider.gameObject != ship.getObj()) {
+            return false;
+        }
+        if (Physics.Linecast(start + (max - pos), end + (max - pos), out hit) && hit.collider.gameObject != ship.getObj()) {
+            return false;
+        }
+        if (Physics.Linecast(start + (min - pos), end + (min - pos), out hit) && hit.collider.gameObject != ship.getObj()) {
+            return false;
+        }
 
-        for (int x = -1; x <= 1; x++) {
+
+        /*for (int x = -1; x <= 1; x++) {
             Vector3 newVec = new Vector3();
 
             if (x == -1) {
@@ -104,7 +114,7 @@ public class CompressingRoad : MonoBehaviour{
 
                 }
             }
-        }
+        }*/
         return true;
     }
 }

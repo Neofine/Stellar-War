@@ -34,7 +34,11 @@ public class SteadyMove : MonoBehaviour {
                 Vector3 position = objNow.obj.transform.position;
 
                 if (++objNow.iteration == 1) {
-                    objNow.obj.transform.rotation = giveRotation(position, objNow.coords, objNow.obj);
+                    objNow.obj.getObj().transform.LookAt(new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z));
+                    objNow.obj.getObj().transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
+                    if (objNow.obj.toString() == "spy") {
+                        objNow.obj.getObj().transform.Rotate(new Vector3(0f, 0f, 180f), Space.Self);
+                    }
                 }
 
                 // making a move by a fixed length, so going straight forward and
@@ -110,8 +114,12 @@ public class SteadyMove : MonoBehaviour {
     }
 
     public Vector3 getDest(Ship ship) {
-        if (moveQueue.ContainsKey(ship) && moveQueue[ship].Count != 0) {
+        if (moveQueue.ContainsKey(ship) && moveQueue[ship].Count != 0)
             return moveQueue[ship][moveQueue[ship].Count - 1];
+        for (int i = 0; i < objToMove.Count; i++) {
+            objDestination objNow = objToMove[i];
+            if (objNow.obj == ship)
+                return objNow.coords;
         }
         return Vector3.zero;
     }
