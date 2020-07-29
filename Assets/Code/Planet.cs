@@ -10,9 +10,11 @@ public class Planet : MonoBehaviour, Clickable {
     protected float angle;
     protected int number;
     private GameObject obj;
+    private bool blocking;
 
     void makeObj() {
         obj = this.gameObject;
+        blocking = false;
     }
 
     void Update() {
@@ -24,18 +26,18 @@ public class Planet : MonoBehaviour, Clickable {
             float height = this.GetComponent<Collider>().bounds.size.y;
             float length = this.GetComponent<Collider>().bounds.size.z;
             planetRadius = Math.Max(width, Math.Max(height, length)) / 2;
-            //print("RADIUS IS " + planetRadius);
+            print(ToString() + " " + planetRadius);
         }
     }
 
     public void changePlanet(GameObject toWhat) {
-        print("HEHE");
         Vector3 coords = obj.transform.position;
         Quaternion then = obj.transform.rotation;
-        toWhat.name = obj.name;
-        Destroy(obj);
+        string copyName = string.Copy(obj.name);
+        Destroy(this.gameObject);
         Instantiate(toWhat, coords, then);
         obj = toWhat;
+        obj.name = copyName;
     }
 
     public float getSpeed() {
@@ -64,7 +66,6 @@ public class Planet : MonoBehaviour, Clickable {
     }
 
     private void OnTriggerEnter(Collider collider) {
-        print("GOT INTO COLLIDER OF :" + ToString() + " OBJECT " + collider.gameObject.ToString());
         Ship ship = collider.gameObject.GetComponent<Ship>();
         if (ship == null)
             return;
@@ -83,5 +84,11 @@ public class Planet : MonoBehaviour, Clickable {
         return true;
     }
 
-    //protected abstract String ToString();
+    public void block() {
+
+    }
+
+    public bool isBlocked() {
+        return blocking;
+    }
 }

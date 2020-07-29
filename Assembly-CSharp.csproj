@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Code\Building.cs" />
     <Compile Include="Assets\Code\CameraEdgeMovement.cs" />
     <Compile Include="Assets\Code\CentralPlanet.cs" />
     <Compile Include="Assets\Code\Chaser.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Code\RotatePlanet.cs" />
     <Compile Include="Assets\Code\SceneLoader.cs" />
     <Compile Include="Assets\Code\Ship.cs" />
+    <Compile Include="Assets\Code\SpawningSurfaceObjects.cs" />
     <Compile Include="Assets\Code\Spy.cs" />
     <Compile Include="Assets\Code\SteadyMove.cs" />
     <Compile Include="Assets\Code\Useful.cs" />

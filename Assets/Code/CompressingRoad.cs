@@ -20,37 +20,8 @@ public class CompressingRoad : MonoBehaviour{
         return answer;
     }
 
-    /*public bool noObjectOnWay(Vector3 start, Vector3 end, Ship ship) {
-        float width = ship.GetComponent<Renderer>().bounds.size.x;
-        float height = ship.GetComponent<Renderer>().bounds.size.y;
-        float length = ship.GetComponent<Renderer>().bounds.size.z;
-        float neverTouch = Math.Max(width, Math.Max(height, length));
-
-        Vector3 offset = transform.up * (transform.localScale.y / 2f) * -1f;
-        Vector3 pos = transform.position + offset; //This is the position
-        print(transform.position + " " + pos);
-
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                for (int z = -1; z <= 1; z++) {
-                    if (x != 0 && y != 0 && z != 0)
-                        continue;
-                    RaycastHit hit;
-                    Vector3 newVec = new Vector3(x * neverTouch / 2, y * neverTouch / 2, z * neverTouch / 2);
-                    if (Physics.Linecast(start + newVec, end + newVec, out hit) && hit.collider.gameObject != ship.getObj()) {
-                        return false;
-                    }
-                        
-                }
-            }
-        }
-        return true;
-    }*/
-
     public bool noObjectOnWay(Vector3 start, Vector3 end, Ship ship) {
         Renderer rend = ship.GetComponent<Renderer>();
-        Quaternion saved = ship.getObj().transform.rotation;
-        //ship.getObj().transform.rotation = Game.getStdMove().giveRotation(start, end, ship);
 
         Vector3 max = rend.bounds.max;
         Vector3 min = rend.bounds.min;

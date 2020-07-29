@@ -76,9 +76,6 @@ public class ObjectClick : MonoBehaviour {
         Vector2 BRres = BR.calculate(point.y);
         // here BRres.x means x coordinates, but BRres.y means <<Z COORDINATES>>
         // Same with TLres
-        print("TL: " + TLres);
-        print("BR: " + BRres);
-        print("HERE: " + point);
         return (point.x <= BRres.x && point.x >= TLres.x && point.z <= TLres.y && point.z >= BRres.y);
     }
 
@@ -94,10 +91,9 @@ public class ObjectClick : MonoBehaviour {
         if (Input.GetMouseButtonDown(0)) {
             onWatch = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             startCoursor = ClickCoords.getCords();
+            // double click on a planet moves game to designated scene
             if (timeBetween <= 0.2f && onWatch.GetComponent<Clickable>().isPlanet()) {
                 Planet planet = onWatch.GetComponent<Planet>();
-                print("HERERERE");
-                print(planet.ToString());
                 Game.getScnLoad().loadScene(planet.getNumber().ToString(), planet);
             }
             timer = Time.time;

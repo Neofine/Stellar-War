@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mesh : MonoBehaviour{
+public class Mesh : MonoBehaviour {
     private GameObject mesh;
     private GameObject spawned;
 	public void spawn(float y) {
