@@ -10,14 +10,15 @@ public class Planet : MonoBehaviour, Clickable {
     protected float angle;
     protected int number;
     private GameObject obj;
-    private bool blocking;
+    private int blocking;
 
     void makeObj() {
         obj = this.gameObject;
-        blocking = false;
+        blocking = 0;
     }
 
     void Update() {
+        print(blocking + " " + ToString());
         if (obj == null) {
             makeObj();
             Game.addPlanet(this);
@@ -85,10 +86,18 @@ public class Planet : MonoBehaviour, Clickable {
     }
 
     public void block() {
+        blocking++;
+    }
 
+    public void unBlock() {
+        blocking--;
+    }
+
+    public void unBlockAll() {
+        blocking = 0;
     }
 
     public bool isBlocked() {
-        return blocking;
+        return (blocking != 0);
     }
 }

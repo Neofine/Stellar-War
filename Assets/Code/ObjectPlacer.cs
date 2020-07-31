@@ -6,41 +6,38 @@ public class ObjectPlacer : MonoBehaviour {
 
     private GameObject objectDuringPlacement = null;
     private GameObject objectPlaced = null;
-    private SpawningSurfaceObjects spwn;
     private Renderer rend;
     private Color color;
     private float mouseRotation = 0f;
     private bool notHere = false;
+    private Planet planet;
 
     private void Start() {
-        spwn = Game.getScnLoad().getOriginal().GetComponent<SpawningSurfaceObjects>();
+        planet = Game.getScnLoad().getOriginal();
         rend = GetComponent<Renderer>();
         color = rend.material.color;
-        foreach (Renderer r in objectDuringPlacement.GetComponentsInChildren<Renderer>()) {
-            r.material.color = Color.white;
-        }
     }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.A)) {
             if (objectDuringPlacement == null) {
-                objectDuringPlacement = Instantiate(GameObject.Find("mainBase"));
+                objectDuringPlacement = Instantiate(GameObject.Find("BmainBase"));
             }
             else {
                 Destroy(objectDuringPlacement);
             }
         }
 
-        if (objectDuringPlacement != null && spwn.isFrobidden(objectDuringPlacement.transform.position - new Vector3(1000f, 1000f, 1100f))) {
+        if (objectDuringPlacement != null && planet.isBlocked()) {
             notHere = true;
             foreach (Renderer r in objectDuringPlacement.GetComponentsInChildren<Renderer>()) {
-                r.material.color = Color.white;
+                r.material.color = Color.red;
             }
         }
         else if (objectDuringPlacement != null) {
             notHere = false;
             foreach (Renderer r in objectDuringPlacement.GetComponentsInChildren<Renderer>()) {
-                r.material.color = Color.blue;
+                r.material.color = Color.green;
             }
         }
             
@@ -61,11 +58,11 @@ public class ObjectPlacer : MonoBehaviour {
             objectDuringPlacement.transform.Rotate(Vector3.up, mouseRotation * 10f);
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && objectDuringPlacement != null && !notHere) {
+        if (Input.GetKeyDown(KeyCode.S) && objectDuringPlacement != null && !planet.isBlocked()) {
+            objectDuringPlacement.AddComponent<Building>();
             if (objectPlaced != null)
                 objectDuringPlacement.transform.parent = objectPlaced.transform;
             objectDuringPlacement = null;
-            spwn.forbid(objectDuringPlacement.transform.position - new Vector3(1000f, 1000f, 1100f));
         }
     }
 }
