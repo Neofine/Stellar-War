@@ -15,8 +15,8 @@ public class MovementOrganiser : MonoBehaviour {
                 foreach (Ship obj in objToMove) {
                     Vector3 position = obj.getObj().transform.position;
 
-                    if (Useful.abs(position.x - ClickCoords.getX(position, gamePos)) <= 5 && Useful.abs(position.y - Game.getMesh().getHeight()) <= 5 &&
-                        Useful.abs(ClickCoords.getZ(position, gamePos) - position.z) <= 5)
+                    if (Mathf.Abs(position.x - ClickCoords.getX(position, gamePos)) <= 5 && Mathf.Abs(position.y - Game.getMesh().getHeight()) <= 5 &&
+                        Mathf.Abs(ClickCoords.getZ(position, gamePos) - position.z) <= 5)
                         continue;
 
                     Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));

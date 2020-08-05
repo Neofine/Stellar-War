@@ -6,7 +6,6 @@ using UnityEngine;
 public class SceneLoader : MonoBehaviour {
 
     private bool isSpawned = false;
-    private string whichScnShouldBe;
     private Planet spawnWhat;
     private Vector3 saved;
     private Quaternion planetRotation;
@@ -21,6 +20,7 @@ public class SceneLoader : MonoBehaviour {
             spawned.GetComponent<RotatePlanet>().enabled = true;
             spawned.GetComponent<ObjectPlacer>().enabled = true;
             spawned.GetComponent<CircularMove>().enabled = false;
+            spawned.GetComponent<SpawningSurfaceObjects>().enabled = false;
             Camera.main.GetComponent<CameraEdgeMovement>().enabled = false;
             isSpawned = true;
         }
@@ -40,7 +40,7 @@ public class SceneLoader : MonoBehaviour {
         return spawnWhat;
     }
 
-    public void loadScene(string which, Planet with) {
+    public void loadScene(Planet with) {
         if (spawned != null)
             Destroy(spawned);
         //SceneManager.LoadScene(which, LoadSceneMode.Additive);
@@ -49,7 +49,6 @@ public class SceneLoader : MonoBehaviour {
         Camera.main.transform.position = new Vector3(1000f, 1000f, 1000f);
         Camera.main.transform.LookAt(new Vector3(1000f, 1000f, 1100f));
         planetRotation = with.getObj().transform.rotation;
-        whichScnShouldBe = which;
         spawnWhat = with;
         isSpawned = false;
     }

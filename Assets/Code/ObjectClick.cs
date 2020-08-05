@@ -16,7 +16,9 @@ public class ObjectClick : MonoBehaviour {
 
     private GameObject ShootLaser(Ray ray) {
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 10000000.0f)) {
+        int layerMask = 1 << 8;
+        layerMask = ~layerMask;
+        if (Physics.Raycast(ray, out hit, 10000000.0f, layerMask)) {
             if (hit.transform != null) {
                 return hit.transform.gameObject;
             }
@@ -28,24 +30,28 @@ public class ObjectClick : MonoBehaviour {
         return (objHighlighted.Count == 0);
     }
 
-    private void Highglight(GameObject objClicked) {
-        if (objClicked == null)
-            return;
+    private void Highglight(GameObject objClicked, bool isShip) {
         Renderer rend = objClicked.GetComponent<MeshRenderer>();
 
         if (rend.material.shader != outline) {
-            rend.material.shader = outline;
-            if (isEmpty()) {
+            foreach (Renderer r in objClicked.GetComponentsInChildren<Renderer>()) {
+                r.material.shader = outline;
+            }
+            if (isEmpty() && isShip) {
                 meanHeight = objClicked.transform.position.y;
                 print(Game.getMesh());
                 Game.getMesh().spawn(meanHeight);
             }
-            objHighlighted.Add(objClicked.GetComponent<Ship>());
+            if (isShip)
+              objHighlighted.Add(objClicked.GetComponent<Ship>());
         }
         else {
-            rend.material.shader = normal;
-            objHighlighted.Remove(objClicked.GetComponent<Ship>());
-            if (isEmpty()) {
+            foreach (Renderer r in objClicked.GetComponentsInChildren<Renderer>()) {
+                r.material.shader = normal;
+            }
+            if (isShip)
+               objHighlighted.Remove(objClicked.GetComponent<Ship>());
+            if (isEmpty() && isShip) {
                 Game.getMesh().destroy();
             }
         }
@@ -53,10 +59,10 @@ public class ObjectClick : MonoBehaviour {
 
     private void HighlightMulti(Vector3 start, Vector3 end) {
         float xSmall, xBig, ySmall, yBig;
-        xSmall = Useful.min(start.x, end.x);
-        xBig = Useful.max(start.x, end.x);
-        ySmall = Useful.min(start.z, end.z);
-        yBig = Useful.max(start.z, end.z);
+        xSmall = Mathf.Min(start.x, end.x);
+        xBig = Mathf.Max(start.x, end.x);
+        ySmall = Mathf.Min(start.z, end.z);
+        yBig = Mathf.Max(start.z, end.z);
 
         foreach (Ship ship in Game.getMovableObj()) {
             Vector3 pos = ship.getObj().transform.position;
@@ -66,7 +72,7 @@ public class ObjectClick : MonoBehaviour {
             ys = ClickCoords.getZSpec(pos, new Vector3(xBig, 0f, ySmall));
             yb = ClickCoords.getZSpec(pos, new Vector3(xSmall, 0f, yBig));
             if (pos.x <= xb && pos.x >= xs && pos.z <= yb && pos.z >= ys) {
-                Highglight(ship.getObj());
+                Highglight(ship.getObj(), true);
             }
         }
     }
@@ -88,13 +94,22 @@ public class ObjectClick : MonoBehaviour {
         if (Game.getInspectMode())
             return;
         float timeBetween = Time.time - timer;
+        if (Input.GetMouseButtonDown(1)) {
+            GameObject clicked = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
+            if (clicked.GetComponent<Clickable>().isBuilding()) {
+                print("TRYING");
+                Highglight(clicked, false);
+            }
+        }
         if (Input.GetMouseButtonDown(0)) {
             onWatch = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             startCoursor = ClickCoords.getCords();
             // double click on a planet moves game to designated scene
-            if (timeBetween <= 0.2f && onWatch.GetComponent<Clickable>().isPlanet()) {
-                Planet planet = onWatch.GetComponent<Planet>();
-                Game.getScnLoad().loadScene(planet.getNumber().ToString(), planet);
+            if (timeBetween <= 0.2f) {
+                if (onWatch.GetComponent<Clickable>().isPlanet()) {
+                    Planet planet = onWatch.GetComponent<Planet>();
+                    Game.getScnLoad().loadScene(planet);
+                }
             }
             timer = Time.time;
             pixStart = Input.mousePosition;
@@ -107,7 +122,7 @@ public class ObjectClick : MonoBehaviour {
         else if (Input.GetMouseButtonUp(0)) {
             if (timeBetween < 0.2f) {
                 if (onWatch.GetComponent<Clickable>().isShip())
-                   Highglight(onWatch);
+                   Highglight(onWatch, true);
             }
             else {
                 drawBox = false;
@@ -119,9 +134,9 @@ public class ObjectClick : MonoBehaviour {
     private void OnGUI() {
         if (drawBox) {
             float  width, height;
-            width = Useful.abs(pixStart.x - pixEnd.x);
-            height = Useful.abs(pixStart.y - pixEnd.y);
-            Rect box = new Rect(Useful.min(pixStart.x, pixEnd.x), Screen.height - Useful.max(pixStart.y, pixEnd.y), width, height);
+            width = Mathf.Abs(pixStart.x - pixEnd.x);
+            height = Mathf.Abs(pixStart.y - pixEnd.y);
+            Rect box = new Rect(Mathf.Min(pixStart.x, pixEnd.x), Screen.height - Mathf.Max(pixStart.y, pixEnd.y), width, height);
             GUI.Box(box, "");
         }
     }

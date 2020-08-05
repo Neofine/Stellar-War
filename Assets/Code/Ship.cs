@@ -37,4 +37,8 @@ public abstract class Ship : MonoBehaviour, Clickable {
     public bool isPlanet() {
         return false;
     }
+
+    public bool isBuilding() {
+        return false;
+    }
 }

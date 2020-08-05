@@ -5,4 +5,5 @@ using UnityEngine;
 public interface Clickable {
     bool isShip();
     bool isPlanet();
+    bool isBuilding();
 }

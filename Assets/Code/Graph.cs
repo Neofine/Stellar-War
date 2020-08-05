@@ -45,25 +45,52 @@ public class Graph : MonoBehaviour {
             float xsquared = (what.x - plnPos.x) * (what.x - plnPos.x);
             float ysquared = (what.y - plnPos.y) * (what.y - plnPos.y);
             float zsquared = (what.z - plnPos.z) * (what.z - plnPos.z);
-            //print(what + " " + plnPos + " " + (xsquared + ysquared + zsquared) + " " + (radius * radius));
             if (xsquared + ysquared + zsquared <= radius * radius)
                 return true;
         }
         return false;
     }
+
+    private Vector3 point;
+    private bool hasFreePoints(Vector3 center, float radius) {
+        for (int i = 1; i <= 100; i++) {
+            Vector3 randomPoint = VectorUtility.getRandPoint(center, radius);
+            if (!isBlocked(randomPoint)) {
+                point = randomPoint;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Vector3 chooseNearest(Vector3 dest) {
+        if (!isBlocked(dest))
+            return dest;
+        float left = 5f;
+        float right = 400f;
+        float mid = 0;
+        while (mid != (left + right) / 2) {
+            mid = (left + right) / 2;    
+            if (hasFreePoints(dest, mid)) {
+                right = mid;
+            }
+            else left = mid + 1;
+        }
+        return point;
+    }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
-        Vector3 smallV = new Vector3(1f, 1f, 1f);
-        if (isBlocked(end) || isBlocked(start)) {
-            print("WRONG END");
-            return null;
+        if (isBlocked(end)) {
+            end = chooseNearest(end);
         }
+        
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
         float minCost = vecLength(start, end);
 
         queue.Add(new Tuple<float, Point> (minCost, new Point(start, 0f, minCost, null)));
         cost.Add(start, 0);
+        
         while (queue.Count != 0) {
             Tuple<float, Point> examined = queue.Min;
             Vector3 inPoint = examined.Item2.point;
@@ -74,9 +101,9 @@ public class Graph : MonoBehaviour {
             }
 
             if (vecLength(inPoint, end) <= 3 * routePrecision) {
-
                 if (routePrecision <= 5)
                     return extractPath(start, examined.Item2);
+                
                 List<Vector3> now = extractPath(start, examined.Item2);
                 List<Vector3> close = planRoute(inPoint, end, routePrecision / 5, ship);
                 if (close == null)

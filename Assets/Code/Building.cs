@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour {
+public class Building : MonoBehaviour, Clickable {
     private Planet planet;
     private bool added;
     private GameObject disturbing;
@@ -34,5 +34,17 @@ public class Building : MonoBehaviour {
             planet.unBlock();
             disturbing = null;
         }
+    }
+
+    public bool isShip() {
+        return false;
+    }
+
+    public bool isPlanet() {
+        return false;
+    }
+
+    public bool isBuilding() {
+        return true;
     }
 }

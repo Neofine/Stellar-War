@@ -1,25 +1,84 @@
-﻿// code taken from YT tutorial, will be changed soon to my own
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class RotatePlanet : MonoBehaviour {
-
+    private float sensitivity;
     private Vector3 prevPos;
-    private Vector3 posDelta;
+    private Vector3 deltaMouse;
+    private Vector3 changeRot;
+    private bool amIClicking;
+    private int cameraState;
 
-    private void Update() {
-        if (Input.GetMouseButton(0)) {
-            posDelta = Input.mousePosition - prevPos;
-            if (Vector3.Dot(transform.up, Vector3.up) >= 0) {
-                transform.Rotate(transform.up, -Vector3.Dot(posDelta, Camera.main.transform.right), Space.World);
-            }
-            else {
-                transform.Rotate(transform.up, Vector3.Dot(posDelta, Camera.main.transform.right), Space.World);
-            }
+    void Start() {
+        sensitivity = 0.4f;
+        changeRot = Vector3.zero;
+        cameraState = 0;
+    }
 
-            transform.Rotate(Camera.main.transform.right, Vector3.Dot(posDelta, Camera.main.transform.up), Space.World);
+    void Update() {
+        if (amIClicking) {
+            deltaMouse = (Input.mousePosition - prevPos);
+            changeRot.y = -(deltaMouse.x + deltaMouse.y) * sensitivity;
+            transform.Rotate(changeRot);
+            prevPos = Input.mousePosition;
         }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            goCameraUp();
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            goCameraDown();
+        }
+    }
+
+    void goCameraUp() {
+        cameraState++;
+        if (cameraState > 1) {
+            cameraState = 1;
+            return;
+        }
+        if (cameraState == 1) {
+            cameraNorthPole();
+        }
+        else if (cameraState == 0) {
+            cameraEquator();
+        }
+    }
+
+    void goCameraDown() {
+        cameraState--;
+        if (cameraState < -1) {
+            cameraState = -1;
+            return;
+        }
+        if (cameraState == -1) {
+            cameraSouthPole();
+        }
+        else if (cameraState == 0) {
+            cameraEquator();
+        }
+    }
+
+    void cameraNorthPole() {
+        Camera.main.transform.position = new Vector3(1000f, 1100f, 1100f);
+        Camera.main.transform.LookAt(new Vector3(1000f, 1000f, 1100f));
+    }
+
+    void cameraEquator() {
+        Camera.main.transform.position = new Vector3(1000f, 1000f, 1000f);
+        Camera.main.transform.LookAt(new Vector3(1000f, 1000f, 1100f));
+    }
+
+    void cameraSouthPole() {
+        Camera.main.transform.position = new Vector3(1000f, 900f, 1100f);
+        Camera.main.transform.LookAt(new Vector3(1000f, 1000f, 1100f));
+    }
+
+    void OnMouseDown() {
+        amIClicking = true;
         prevPos = Input.mousePosition;
     }
 
+    void OnMouseUp() {
+        amIClicking = false;
+    }
 }

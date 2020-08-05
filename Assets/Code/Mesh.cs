@@ -14,7 +14,7 @@ public class Mesh : MonoBehaviour {
     }
 
     private void changePosition(float howMuch) {
-        if (Useful.abs((spawned.transform.position + new Vector3(0f, howMuch, 0f) * 3).y) <= 100)
+        if (Mathf.Abs((spawned.transform.position + new Vector3(0f, howMuch, 0f) * 3).y) <= 100)
           spawned.transform.position = spawned.transform.position + new Vector3(0f, howMuch, 0f) * 3;
     }
 

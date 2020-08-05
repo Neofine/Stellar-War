@@ -18,7 +18,7 @@ public class Planet : MonoBehaviour, Clickable {
     }
 
     void Update() {
-        print(blocking + " " + ToString());
+        //print(blocking + " " + ToString());
         if (obj == null) {
             makeObj();
             Game.addPlanet(this);
@@ -27,7 +27,7 @@ public class Planet : MonoBehaviour, Clickable {
             float height = this.GetComponent<Collider>().bounds.size.y;
             float length = this.GetComponent<Collider>().bounds.size.z;
             planetRadius = Math.Max(width, Math.Max(height, length)) / 2;
-            print(ToString() + " " + planetRadius);
+            //print(ToString() + " " + planetRadius);
         }
     }
 
@@ -85,16 +85,16 @@ public class Planet : MonoBehaviour, Clickable {
         return true;
     }
 
+    public bool isBuilding() {
+        return false;
+    }
+
     public void block() {
         blocking++;
     }
 
     public void unBlock() {
         blocking--;
-    }
-
-    public void unBlockAll() {
-        blocking = 0;
     }
 
     public bool isBlocked() {
