@@ -53,7 +53,7 @@ public class Graph : MonoBehaviour {
 
     private Vector3 point;
     private bool hasFreePoints(Vector3 center, float radius) {
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 10; i++) {
             Vector3 randomPoint = VectorUtility.getRandPoint(center, radius);
             if (!isBlocked(randomPoint)) {
                 point = randomPoint;
@@ -67,7 +67,7 @@ public class Graph : MonoBehaviour {
         if (!isBlocked(dest))
             return dest;
         float left = 5f;
-        float right = 400f;
+        float right = 100f;
         float mid = 0;
         while (mid != (left + right) / 2) {
             mid = (left + right) / 2;    

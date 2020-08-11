@@ -46,6 +46,7 @@ public class SpawningSurfaceObjects : MonoBehaviour {
         }
 
         if (planet.isBlocked()) {
+            print("DESTRo");
             Destroy(spawned);
         }
         else {

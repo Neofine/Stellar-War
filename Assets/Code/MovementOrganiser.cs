@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class MovementOrganiser : MonoBehaviour {
     private int roadSmoothness = 6;
+    private float lastTime = 0.0f;
     void Update() {
-        if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) {
+        if ((Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) && Time.time - lastTime > 0.2f) {
+            float lastTime = Time.time;
             Vector3 mousePos = Input.mousePosition;
             Vector3 gamePos = ClickCoords.getCords();
             List<Ship> objToMove = Game.getObjClick().getObjHighlighted();

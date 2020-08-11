@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class SteadyMove : MonoBehaviour {
 
-    private List<objDestination> objToMove;
+    private List<ObjDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
     public float tpLength;
     public float almostZero = 0.01f;
 
-    private class objDestination {
+    private class ObjDestination {
         public Vector3 coords;
         public Ship obj;
         public int iteration;
-        public objDestination(Ship obj, Vector3 coords) {
+        public ObjDestination(Ship obj, Vector3 coords) {
             this.obj = obj;
             this.coords = coords;
         }
     }
 
     void Start () {
-        objToMove = new List<objDestination>();
+        objToMove = new List<ObjDestination>();
         moveQueue = new Dictionary<Ship, List<Vector3>>();
         tpLength = 3f;
     }
@@ -29,7 +29,7 @@ public class SteadyMove : MonoBehaviour {
 	void Update() {
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
-                objDestination objNow = objToMove[i];
+                ObjDestination objNow = objToMove[i];
                 tpLength = objNow.obj.getSpeed() * Time.deltaTime * 60;
                 Vector3 position = objNow.obj.transform.position;
 
@@ -62,6 +62,11 @@ public class SteadyMove : MonoBehaviour {
                             objNow.obj.getObj().transform.position = objNow.coords;
                             break;
                         }
+                        objNow.obj.getObj().transform.LookAt(new Vector3(objNow.coords.x, objNow.coords.y, objNow.coords.z));
+                        objNow.obj.getObj().transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
+                        if (objNow.obj.toString() == "spy") {
+                            objNow.obj.getObj().transform.Rotate(new Vector3(0f, 0f, 180f), Space.Self);
+                        }
                         diff = objNow.coords - position;
                         if (Game.getGraph().vecLength(objNow.coords, position) + almostZero >= rest) {
                             diff /= Game.getGraph().vecLength(objNow.coords, position);
@@ -83,7 +88,10 @@ public class SteadyMove : MonoBehaviour {
                     if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
                         objToMove.Add(getNextDest(objNow));
                     }
-                    else print("AUTO PILOT END IN: " + (Time.time - debugTimer));
+                    else {
+                        print("AUTO PILOT END IN: " + (Time.time - debugTimer));
+                        objNow.obj.getObj().GetComponent<MeshCollider>().enabled = true;
+                    }
                 }
             }
         }
@@ -97,13 +105,14 @@ public class SteadyMove : MonoBehaviour {
         }
         return answer;
     }
-    private objDestination getNextDest(objDestination examined) {
-        objDestination ans = new objDestination(examined.obj, moveQueue[examined.obj].First());
+    private ObjDestination getNextDest(ObjDestination examined) {
+        ObjDestination ans = new ObjDestination(examined.obj, moveQueue[examined.obj].First());
         moveQueue[examined.obj].Remove(moveQueue[examined.obj].First());
         return ans;
     }
 
     public void queueMove(List <Vector3> queue, Ship onWhat) {
+        onWhat.getObj().GetComponent<MeshCollider>().enabled = false;
         debugTimer = Time.time;
         if (moveQueue.ContainsKey(onWhat))
             moveQueue.Remove(onWhat);
@@ -117,7 +126,7 @@ public class SteadyMove : MonoBehaviour {
         if (moveQueue.ContainsKey(ship) && moveQueue[ship].Count != 0)
             return moveQueue[ship][moveQueue[ship].Count - 1];
         for (int i = 0; i < objToMove.Count; i++) {
-            objDestination objNow = objToMove[i];
+            ObjDestination objNow = objToMove[i];
             if (objNow.obj == ship)
                 return objNow.coords;
         }
@@ -132,6 +141,6 @@ public class SteadyMove : MonoBehaviour {
                 continue;
             }
         }
-        objToMove.Add(new objDestination(obj, coords));
+        objToMove.Add(new ObjDestination(obj, coords));
     }
 }

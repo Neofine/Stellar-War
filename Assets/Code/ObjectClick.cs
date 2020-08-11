@@ -96,7 +96,7 @@ public class ObjectClick : MonoBehaviour {
         float timeBetween = Time.time - timer;
         if (Input.GetMouseButtonDown(1)) {
             GameObject clicked = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
-            if (clicked.GetComponent<Clickable>().isBuilding()) {
+            if (clicked != null && clicked.GetComponent<Clickable>().isBuilding()) {
                 print("TRYING");
                 Highglight(clicked, false);
             }
@@ -121,7 +121,7 @@ public class ObjectClick : MonoBehaviour {
         }
         else if (Input.GetMouseButtonUp(0)) {
             if (timeBetween < 0.2f) {
-                if (onWatch.GetComponent<Clickable>().isShip())
+                if (onWatch != null && onWatch.GetComponent<Clickable>().isShip())
                    Highglight(onWatch, true);
             }
             else {
