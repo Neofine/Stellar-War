@@ -17,6 +17,7 @@ public class CompressingRoad : MonoBehaviour{
             answer.Add(road[idx - 1]);
             idx++;
         }
+        
         return answer;
     }
 
@@ -25,16 +26,18 @@ public class CompressingRoad : MonoBehaviour{
         float height = ship.GetComponent<Renderer>().bounds.size.y;
         float length = ship.GetComponent<Renderer>().bounds.size.z;
         float neverTouch = Math.Max(width, Math.Max(height, length));
+        RaycastHit hit;
+        Vector3 newVec;
 
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
-                    RaycastHit hit;
-                    Vector3 newVec = new Vector3(x * neverTouch / 2, y * neverTouch / 2, z * neverTouch / 2);
-                    if (Physics.Linecast(start + newVec, end + newVec, out hit) && hit.collider.gameObject != ship.getObj()) {
-                        return false;
+                    if ((x == 1 && y == 1 && z == 1) || (x == -1 && y == -1 && z == -1)) {
+                        newVec = new Vector3(x * neverTouch / 2, y * neverTouch / 2, z * neverTouch / 2);
+                        if (Physics.Linecast(start + newVec, end + newVec, out hit) && hit.collider.gameObject != ship.getObj()) {
+                            return false;
+                        }
                     }
-                        
                 }
             }
         }

@@ -22,6 +22,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/Graph.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Planet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/VectorUtility.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/CornerCutting.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -29,13 +30,14 @@
         <option value="$PROJECT_DIR$/Assets/Code/ObjectPlacer.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Mesh.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/VectorUtility.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/CompressingRoad.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/SteadyMove.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Graph.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Building.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/SpawningSurfaceObjects.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/ObjectClick.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/CornerCutting.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/SteadyMove.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/MovementOrganiser.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Graph.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/CompressingRoad.cs" />
       </list>
     </option>
   </component>
@@ -86,7 +88,7 @@
       <workItem from="1596627032041" duration="8704000" />
       <workItem from="1597124528200" duration="2559000" />
       <workItem from="1597156364068" duration="1568000" />
-      <workItem from="1597235500848" duration="2416000" />
+      <workItem from="1597235500848" duration="4319000" />
     </task>
     <servers />
   </component>

@@ -27,6 +27,7 @@ public class SteadyMove : MonoBehaviour {
 
     float debugTimer;
 	void Update() {
+        float timer = Time.time;
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
                 ObjDestination objNow = objToMove[i];
@@ -95,6 +96,7 @@ public class SteadyMove : MonoBehaviour {
                 }
             }
         }
+        print("MOVING TIME " + (Time.time - timer));
 	}
 
     public Quaternion giveRotation(Vector3 position, Vector3 destination, Ship obj) {
@@ -112,6 +114,7 @@ public class SteadyMove : MonoBehaviour {
     }
 
     public void queueMove(List <Vector3> queue, Ship onWhat) {
+        float timer = Time.time;
         onWhat.getObj().GetComponent<MeshCollider>().enabled = false;
         debugTimer = Time.time;
         if (moveQueue.ContainsKey(onWhat))
@@ -120,6 +123,7 @@ public class SteadyMove : MonoBehaviour {
         queue.Remove(queue.First());
         move(onWhat, firstDirection);
         moveQueue.Add(onWhat, queue);
+        print("QUEUING TIME: " + (Time.time - timer));
     }
 
     public Vector3 getDest(Ship ship) {

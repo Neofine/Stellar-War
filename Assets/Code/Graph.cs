@@ -80,6 +80,7 @@ public class Graph : MonoBehaviour {
     }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
+        float timer = Time.time;
         if (isBlocked(end)) {
             end = chooseNearest(end);
         }
@@ -109,7 +110,7 @@ public class Graph : MonoBehaviour {
                 if (close == null)
                     return null;
                 close.AddRange(now);
-
+                
                 return close;
             }
 
@@ -138,6 +139,7 @@ public class Graph : MonoBehaviour {
                 }
             }
         }
+        print("WTFTFTFTFTFTFTFTFT");
         return null;
     }
 
