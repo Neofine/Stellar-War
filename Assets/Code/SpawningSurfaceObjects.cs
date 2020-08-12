@@ -14,7 +14,7 @@ public class SpawningSurfaceObjects : MonoBehaviour {
         planet = GetComponent<Planet>();
         forbidden = new List<System.Tuple<Vector3, Vector3>>();
         planetCenter = transform.position;
-        radius = planet.getRadPln();
+        //radius = planet.getRadPln();
     }
 
     void Update() {
@@ -28,7 +28,7 @@ public class SpawningSurfaceObjects : MonoBehaviour {
     
 
     private IEnumerator spawnAcc() {
-        Vector3 pos = VectorUtility.getRandPoint(planetCenter, radius);
+        Vector3 pos = VectorUtility.getRandPoint(planetCenter, planet.getRadPln());
 
         GameObject spawned = Instantiate(GameObject.Find("BmainBase"), pos, Quaternion.identity);
         spawned.transform.parent = gameObject.transform;

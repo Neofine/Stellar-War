@@ -22,6 +22,7 @@ public class Building : MonoBehaviour, Clickable {
     }
     private void OnTriggerStay(Collider other) {
         if (other.gameObject.name[0] == 'B' && !added) {
+            print("XD");
             added = true;
             planet.block();
             disturbing = other.gameObject;
@@ -35,7 +36,7 @@ public class Building : MonoBehaviour, Clickable {
             disturbing = null;
         }
     }
-
+    
     public bool isShip() {
         return false;
     }

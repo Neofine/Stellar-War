@@ -97,7 +97,7 @@ public class ObjectClick : MonoBehaviour {
         if (Input.GetMouseButtonDown(1)) {
             GameObject clicked = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             if (clicked != null && clicked.GetComponent<Clickable>().isBuilding()) {
-                print("TRYING");
+                print("CLICKED BUILDING");
                 Highglight(clicked, false);
             }
         }
@@ -106,7 +106,7 @@ public class ObjectClick : MonoBehaviour {
             startCoursor = ClickCoords.getCords();
             // double click on a planet moves game to designated scene
             if (timeBetween <= 0.2f) {
-                if (onWatch.GetComponent<Clickable>().isPlanet()) {
+                if (onWatch != null && onWatch.GetComponent<Clickable>().isPlanet()) {
                     Planet planet = onWatch.GetComponent<Planet>();
                     Game.getScnLoad().loadScene(planet);
                 }
@@ -121,8 +121,9 @@ public class ObjectClick : MonoBehaviour {
         }
         else if (Input.GetMouseButtonUp(0)) {
             if (timeBetween < 0.2f) {
-                if (onWatch != null && onWatch.GetComponent<Clickable>().isShip())
-                   Highglight(onWatch, true);
+                if (onWatch != null && onWatch.GetComponent<Clickable>().isShip()) {
+                    Highglight(onWatch, true);
+                }
             }
             else {
                 drawBox = false;

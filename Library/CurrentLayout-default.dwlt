@@ -396,7 +396,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 18380000
       m_LastClickedID: 14360
-      m_ExpandedIDs: 6efbffff
+      m_ExpandedIDs: 5ce2ffff9ce2ffff6efbffffb437000018380000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -456,9 +456,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 10.277901, y: 102.19419, z: -160.77184}
+    m_Target: {x: 26.169193, y: -71.9242, z: 78.77065}
     speed: 2
-    m_Value: {x: 10.277901, y: 102.19419, z: -160.77184}
+    m_Value: {x: 26.169193, y: -71.9242, z: 78.77065}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -504,20 +504,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.24352098, y: -0.011351329, z: 0.002817767, w: -0.9698743}
+    m_Target: {x: 0.2958191, y: -0.00341092, z: 0.0010982298, w: 0.955292}
     speed: 2
-    m_Value: {x: -0.24350937, y: -0.011350788, z: 0.0028176326, w: -0.96982807}
+    m_Value: {x: 0.29580367, y: -0.003410742, z: 0.0010981724, w: 0.9552421}
   m_Size:
-    m_Target: 23.408398
+    m_Target: 121.24355
     speed: 2
-    m_Value: 23.408398
+    m_Value: 121.24355
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1.4
-    m_SpeedNormalized: 0.6977386
+    m_Speed: 1.8
+    m_SpeedNormalized: 0.87773854
     m_SpeedMin: 0.01
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -666,9 +666,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: b4370000
-    m_LastClickedInstanceID: 14260
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: dc370000
+    m_LastClickedInstanceID: 14300
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300009c2500000000000072260000e63400009c330000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -693,7 +693,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 16}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 132
@@ -760,4 +760,4 @@ MonoBehaviour:
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 100
+  m_LastVerticalScrollValue: 0
