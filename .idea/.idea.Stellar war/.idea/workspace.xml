@@ -11,16 +11,20 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Code/MovementOrganiser.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/Building.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/SceneLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/ObjectPlacer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/CompressingRoad.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/SpawningSurfaceObjects.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Code/SteadyMove.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/OrbitingPlanet.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/ClickCoords.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Mesh.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Ship.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/ObjectClick.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Graph.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Planet.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/MovementOrganiser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/Building.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/SteadyMove.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/VectorUtility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/CornerCutting.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -29,15 +33,18 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Code/ObjectPlacer.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Mesh.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/VectorUtility.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Building.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/CompressingRoad.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/OrbitingPlanet.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/SpawningSurfaceObjects.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/SceneLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Building.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/ObjectClick.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/CornerCutting.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/VectorUtility.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Graph.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Ship.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/SteadyMove.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/MovementOrganiser.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Graph.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/CompressingRoad.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/CornerCutting.cs" />
       </list>
     </option>
   </component>
@@ -89,6 +96,9 @@
       <workItem from="1597124528200" duration="2559000" />
       <workItem from="1597156364068" duration="1568000" />
       <workItem from="1597235500848" duration="4319000" />
+      <workItem from="1597240772295" duration="1299000" />
+      <workItem from="1597308744181" duration="948000" />
+      <workItem from="1597323496348" duration="11031000" />
     </task>
     <servers />
   </component>

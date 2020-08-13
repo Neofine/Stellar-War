@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class SteadyMove : MonoBehaviour {
 
     private List<ObjDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
+    private List<Tuple<Ship, GameObject>> following;
     public float tpLength;
     public float almostZero = 0.01f;
 
@@ -45,13 +47,13 @@ public class SteadyMove : MonoBehaviour {
                 // making a move by a fixed length, so going straight forward and
                 // turning will have the same fixed speed
                 Vector3 diff = objNow.coords - position;
-                if (Game.getGraph().vecLength(objNow.coords, position) + almostZero >= tpLength) {
-                    diff /= Game.getGraph().vecLength(objNow.coords, position);
+                if (VectorUtility.vecLength(objNow.coords, position) + almostZero >= tpLength) {
+                    diff /= VectorUtility.vecLength(objNow.coords, position);
                     diff *= tpLength;
                     objNow.obj.getObj().transform.position += diff;
                 }
                 else if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
-                    float rest = tpLength - Game.getGraph().vecLength(objNow.coords, position);
+                    float rest = tpLength - VectorUtility.vecLength(objNow.coords, position);
                     objNow.obj.getObj().transform.position = objNow.coords;
                     while (rest > almostZero) {
                         if (moveQueue.ContainsKey(objNow.obj) && moveQueue[objNow.obj].Count != 0) {
@@ -69,15 +71,15 @@ public class SteadyMove : MonoBehaviour {
                             objNow.obj.getObj().transform.Rotate(new Vector3(0f, 0f, 180f), Space.Self);
                         }
                         diff = objNow.coords - position;
-                        if (Game.getGraph().vecLength(objNow.coords, position) + almostZero >= rest) {
-                            diff /= Game.getGraph().vecLength(objNow.coords, position);
+                        if (VectorUtility.vecLength(objNow.coords, position) + almostZero >= rest) {
+                            diff /= VectorUtility.vecLength(objNow.coords, position);
                             diff *= rest;
                             objNow.obj.getObj().transform.position += diff;
                             break;
                         }
                         else {
                             objNow.obj.getObj().transform.position = objNow.coords;
-                            rest -= Game.getGraph().vecLength(objNow.coords, position);
+                            rest -= VectorUtility.vecLength(objNow.coords, position);
                         }
                     }
                 }
@@ -96,8 +98,18 @@ public class SteadyMove : MonoBehaviour {
                 }
             }
         }
-        print("MOVING TIME " + (Time.time - timer));
-	}
+
+        if (following != null) {
+            foreach (Tuple<Ship, GameObject> follower in following) {
+                Ship attacker = follower.Item1;
+                GameObject dest = follower.Item2;
+                if (VectorUtility.vecLength(attacker.getObj().transform.position, dest.transform.position) <
+                    attacker.getAttackRange()) {
+                    
+                }
+            }
+        }
+    }
 
     public Quaternion giveRotation(Vector3 position, Vector3 destination, Ship obj) {
         Quaternion answer = Quaternion.LookRotation(destination - position);
@@ -124,6 +136,10 @@ public class SteadyMove : MonoBehaviour {
         move(onWhat, firstDirection);
         moveQueue.Add(onWhat, queue);
         print("QUEUING TIME: " + (Time.time - timer));
+    }
+
+    public void follow(GameObject what, Ship with) {
+        
     }
 
     public Vector3 getDest(Ship ship) {

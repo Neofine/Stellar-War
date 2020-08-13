@@ -87,7 +87,7 @@ public class Graph : MonoBehaviour {
         
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
-        float minCost = vecLength(start, end);
+        float minCost = VectorUtility.vecLength(start, end);
 
         queue.Add(new Tuple<float, Point> (minCost, new Point(start, 0f, minCost, null)));
         cost.Add(start, 0);
@@ -101,7 +101,7 @@ public class Graph : MonoBehaviour {
                 continue;
             }
 
-            if (vecLength(inPoint, end) <= 3 * routePrecision) {
+            if (VectorUtility.vecLength(inPoint, end) <= 3 * routePrecision) {
                 if (routePrecision <= 5)
                     return extractPath(start, examined.Item2);
                 
@@ -110,7 +110,7 @@ public class Graph : MonoBehaviour {
                 if (close == null)
                     return null;
                 close.AddRange(now);
-                
+
                 return close;
             }
 
@@ -122,7 +122,7 @@ public class Graph : MonoBehaviour {
                         // !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship)
                         if (isBlocked(newVector) || newVector == inPoint)
                             continue;
-                        float toEnd = vecLength(newVector, end);
+                        float toEnd = VectorUtility.vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);
                         Point newPoint = new Point(newVector, costToStart, toEnd, examined.Item2);
 
@@ -154,11 +154,7 @@ public class Graph : MonoBehaviour {
         path.Add(now.point);
         return path;
     }
-
-    public float vecLength(Vector3 start, Vector3 end) {
-        return (float)Math.Sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y) + (start.z - end.z) * (start.z - end.z));
-    }
-
+    
     private float VCost(Vector3 what, float change) {
         if (what == Vector3.zero)
             return 0;
@@ -169,17 +165,4 @@ public class Graph : MonoBehaviour {
         }
         return change * (float)Math.Sqrt(3);
     }
-
-    /*private Vector3 findClosestNotBlocked(Vector3 start, Vector3 blocked) {
-        foreach (Planet planet in Game.getPlanets()) {
-            Vector3 plnPos = planet.getObj().transform.position;
-            float radius = planet.getRadPln() + 30;
-            float xsquared = (blocked.x - plnPos.x) * (blocked.x - plnPos.x);
-            float ysquared = (blocked.y - plnPos.y) * (blocked.y - plnPos.y);
-            float zsquared = (blocked.z - plnPos.z) * (blocked.z - plnPos.z);
-            if (xsquared + ysquared + zsquared <= radius * radius)
-                return true;
-        }
-        return false;
-    }*/
 }

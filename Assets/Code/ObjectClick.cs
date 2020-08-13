@@ -8,6 +8,8 @@ public class ObjectClick : MonoBehaviour {
     private Shader normal;
     private List<Ship> objHighlighted = new List<Ship>();
     private float meanHeight;
+    private GameObject buildingClicked;
+    private float timeBuildClicked;
 
 	void Start () {
         outline = Shader.Find("Outlined/Diffuse");
@@ -30,7 +32,17 @@ public class ObjectClick : MonoBehaviour {
         return (objHighlighted.Count == 0);
     }
 
-    private void Highglight(GameObject objClicked, bool isShip) {
+    public void unHighlightAll() {
+        Game.getMesh().destroy();
+        foreach (Ship highlighted in objHighlighted) {
+            foreach (Renderer r in highlighted.getObj().GetComponentsInChildren<Renderer>()) {
+                r.material.shader = normal;
+            }
+        }
+        objHighlighted = null;
+    }
+
+    private void highlight(GameObject objClicked, bool isShip) {
         Renderer rend = objClicked.GetComponent<MeshRenderer>();
 
         if (rend.material.shader != outline) {
@@ -72,7 +84,7 @@ public class ObjectClick : MonoBehaviour {
             ys = ClickCoords.getZSpec(pos, new Vector3(xBig, 0f, ySmall));
             yb = ClickCoords.getZSpec(pos, new Vector3(xSmall, 0f, yBig));
             if (pos.x <= xb && pos.x >= xs && pos.z <= yb && pos.z >= ys) {
-                Highglight(ship.getObj(), true);
+                highlight(ship.getObj(), true);
             }
         }
     }
@@ -91,16 +103,19 @@ public class ObjectClick : MonoBehaviour {
     private bool drawBox = false;
 
     void Update () {
-        if (Game.getInspectMode())
-            return;
         float timeBetween = Time.time - timer;
         if (Input.GetMouseButtonDown(1)) {
+            print("WOLOLOL");
             GameObject clicked = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             if (clicked != null && clicked.GetComponent<Clickable>().isBuilding()) {
                 print("CLICKED BUILDING");
-                Highglight(clicked, false);
+                highlight(clicked, false);
+                timeBuildClicked = Time.time;
+                buildingClicked = clicked;
             }
         }
+        if (Game.getInspectMode())
+            return;
         if (Input.GetMouseButtonDown(0)) {
             onWatch = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             startCoursor = ClickCoords.getCords();
@@ -122,7 +137,7 @@ public class ObjectClick : MonoBehaviour {
         else if (Input.GetMouseButtonUp(0)) {
             if (timeBetween < 0.2f) {
                 if (onWatch != null && onWatch.GetComponent<Clickable>().isShip()) {
-                    Highglight(onWatch, true);
+                    highlight(onWatch, true);
                 }
             }
             else {
@@ -144,5 +159,13 @@ public class ObjectClick : MonoBehaviour {
 
     public List<Ship> getObjHighlighted() {
         return objHighlighted;
+    }
+
+    public GameObject getBuildingClicked() {
+        return buildingClicked;
+    }
+
+    public float getTimeBuildClick() {
+        return timeBuildClicked;
     }
 }

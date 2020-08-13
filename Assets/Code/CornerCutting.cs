@@ -32,7 +32,7 @@ public class CornerCutting : MonoBehaviour {
 
         while(addIdx != added.Count) {
             cutIdx++;
-            if (Game.getCompressingRoad().noObjectOnWay(added[addIdx].Item1, added[addIdx].Item2, ship) && Game.getGraph().vecLength(added[addIdx].Item1, added[addIdx].Item2) > singleVecLength) {
+            if (Game.getCompressingRoad().noObjectOnWay(added[addIdx].Item1, added[addIdx].Item2, ship) && VectorUtility.vecLength(added[addIdx].Item1, added[addIdx].Item2) > singleVecLength) {
                 path.RemoveAt(cutIdx);
                 path.Insert(cutIdx, added[addIdx].Item2);
                 path.Insert(cutIdx, added[addIdx].Item1);

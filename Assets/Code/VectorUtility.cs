@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class VectorUtility {
     public static Vector3 getRandPoint(Vector3 plCenter, float plnRad) {
@@ -24,5 +26,9 @@ public static class VectorUtility {
 
         Vector3 pos = new Vector3(xRand, ySet, zSet);
         return pos;
+    }
+    
+    public static float vecLength(Vector3 start, Vector3 end) {
+        return (float)Math.Sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y) + (start.z - end.z) * (start.z - end.z));
     }
 }

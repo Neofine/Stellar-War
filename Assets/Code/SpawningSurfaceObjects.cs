@@ -14,7 +14,6 @@ public class SpawningSurfaceObjects : MonoBehaviour {
         planet = GetComponent<Planet>();
         forbidden = new List<System.Tuple<Vector3, Vector3>>();
         planetCenter = transform.position;
-        //radius = planet.getRadPln();
     }
 
     void Update() {
@@ -34,7 +33,6 @@ public class SpawningSurfaceObjects : MonoBehaviour {
         spawned.transform.parent = gameObject.transform;
         Rigidbody rgb = spawned.GetComponent<Rigidbody>();
         spawned.transform.localScale = new Vector3(0.5f / transform.localScale.x, 0.5f / transform.localScale.y, 0.5f / transform.localScale.z);
-        //rgb.constraints = RigidbodyConstraints.FreezePosition;
         spawned.transform.LookAt(planetCenter);
         spawned.transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
         rgb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
@@ -46,7 +44,6 @@ public class SpawningSurfaceObjects : MonoBehaviour {
         }
 
         if (planet.isBlocked()) {
-            print("DESTRo");
             Destroy(spawned);
         }
         else {

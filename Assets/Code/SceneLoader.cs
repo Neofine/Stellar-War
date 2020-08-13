@@ -41,9 +41,9 @@ public class SceneLoader : MonoBehaviour {
     }
 
     public void loadScene(Planet with) {
+        //Game.getObjClick().unHighlightAll();
         if (spawned != null)
             Destroy(spawned);
-        //SceneManager.LoadScene(which, LoadSceneMode.Additive);
         saved = Camera.main.transform.position;
         savedRotation = Camera.main.transform.rotation;
         Camera.main.transform.position = new Vector3(1000f, 1000f, 1000f);
