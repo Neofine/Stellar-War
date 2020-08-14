@@ -21,7 +21,8 @@ public class MovementOrganiser : MonoBehaviour {
                 if (child.localPosition == localCoords) {
                     foreach (Ship obj in objToMove) {
                         print(child.position);
-                        calcRoute(obj, child.position);
+                        obj.startAttack();
+                        calcRoute(obj, child.position, obj.getAttackRange());
                         //attack(obj, child.position);
                     }
                 }
@@ -43,29 +44,22 @@ public class MovementOrganiser : MonoBehaviour {
                         continue;
 
                     Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
-                    calcRoute(obj, end);
+                    calcRoute(obj, end, 30);
                 }
             }
         }
     }
 
-    private void calcRoute(Ship ship, Vector3 destination) {
+    private void calcRoute(Ship ship, Vector3 destination, float setDistance) {
         List<Vector3> route;
         float timer = Time.time;
-        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 50, ship);
-        //print("ROAD CALCULATING TIME: " + (Time.time - timer));
+        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 50, ship, setDistance);
 
         if (route != null && route.Count != 0) {
             route.Reverse();
-            
-            //timer = Time.time;
             route = Game.getCompressingRoad().compress(ship, route);
-            //print("COMPRESSING TIME: " + (Time.time - timer));
-            
-            //timer = Time.time;
             route = Game.getCornerCutting().smoothPath(route, roadSmoothness, ship);
-            //print("SMOOTHING TIME: " + (Time.time - timer));
-            
+
             if (route.Count != 0) {
                 Game.getStdMove().queueMove(route, ship);
             }
@@ -75,7 +69,10 @@ public class MovementOrganiser : MonoBehaviour {
     public void recalcPath(Ship ship) {
         Vector3 destination = Game.getStdMove().getDest(ship);
         if (destination != Vector3.zero) {
-            calcRoute(ship, destination);
+            if (ship.isAttacking())
+               calcRoute(ship, destination, ship.getAttackRange());
+            else 
+                calcRoute(ship, destination, 30);
         }
     }
 }

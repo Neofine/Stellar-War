@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 using Vector3 = UnityEngine.Vector3;
 
 public class Graph : MonoBehaviour {
+    private float distanceFromSurf;
 
     private class Point{
         public Vector3 point;
@@ -41,7 +42,7 @@ public class Graph : MonoBehaviour {
     private bool isBlocked(Vector3 what) {
         foreach (Planet planet in Game.getPlanets()) {
             Vector3 plnPos = planet.getObj().transform.position;
-            float radius = planet.getRadPln() + 30;
+            float radius = planet.getRadPln() + distanceFromSurf;
             float xsquared = (what.x - plnPos.x) * (what.x - plnPos.x);
             float ysquared = (what.y - plnPos.y) * (what.y - plnPos.y);
             float zsquared = (what.z - plnPos.z) * (what.z - plnPos.z);
@@ -79,7 +80,8 @@ public class Graph : MonoBehaviour {
         return point;
     }
  
-    public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship) {
+    public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship, float setDistance) {
+        distanceFromSurf = setDistance;
         float timer = Time.time;
         if (isBlocked(end)) {
             end = chooseNearest(end);
@@ -106,7 +108,7 @@ public class Graph : MonoBehaviour {
                     return extractPath(start, examined.Item2);
                 
                 List<Vector3> now = extractPath(start, examined.Item2);
-                List<Vector3> close = planRoute(inPoint, end, routePrecision / 5, ship);
+                List<Vector3> close = planRoute(inPoint, end, routePrecision / 5, ship, setDistance);
                 if (close == null)
                     return null;
                 close.AddRange(now);

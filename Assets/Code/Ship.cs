@@ -8,6 +8,7 @@ public abstract class Ship : MonoBehaviour, Clickable {
     protected float speed;
     protected int faction = 1;
     protected float attackRange = 10f;
+    protected bool duringAttack = false;
 
     void makeObj() {
         obj = this.gameObject;
@@ -31,6 +32,18 @@ public abstract class Ship : MonoBehaviour, Clickable {
 
     public float getSpeed() {
         return speed;
+    }
+
+    public bool isAttacking() {
+        return duringAttack;
+    }
+
+    public void notAttacking() {
+        duringAttack = false;
+    }
+
+    public void startAttack() {
+        duringAttack = true;
     }
 
     public abstract string toString();

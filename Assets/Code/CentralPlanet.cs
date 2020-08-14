@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CentralPlanet : Planet {
-
-    void Start() {
+    public CentralPlanet(){
         radiusAroudSun = 0f;
-
         angle = 0f;
         speed = 2 * Mathf.PI / 60;
     }

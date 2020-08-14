@@ -43,7 +43,7 @@ public class ObjectPlacer : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit hit;
-            int layerMask = 1 << 8;
+            int layerMask = (1 << 8) +  (1 << 9);
             layerMask = ~layerMask;
             if (Physics.Raycast(ray, out hit, 100000f, layerMask)) {
                 objectDuringPlacement.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -52,7 +52,7 @@ public class ObjectPlacer : MonoBehaviour {
                 objectPlaced = hit.transform.gameObject;
             }
             else {
-                objectDuringPlacement.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                objectDuringPlacement.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
 
             mouseRotation += Input.mouseScrollDelta.y;

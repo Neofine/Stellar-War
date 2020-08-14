@@ -5,40 +5,58 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour, Clickable {
     protected float radiusAroudSun;
-    protected float planetRadius;
+    protected float planetRadius = 0;
     protected float speed;
     protected float angle;
     protected int number;
-    private GameObject obj;
     private int blocking;
 
-    void makeObj() {
-        obj = this.gameObject;
-        blocking = 0;
+    public Planet(DataPlanet data) {
+        radiusAroudSun = data.radiusAroudSun;
+        planetRadius = data.planetRadius;
+        speed = data.speed;
+        angle = data.angle;
+        number = data.number;
+        blocking = data.blocking;
+        //gameObject.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        gameObject.transform.position = data.position;
+        gameObject.transform.rotation = data.rotation;
     }
 
+    public Planet() {
+        
+    }
+
+
     void Update() {
-        //print(blocking + " " + ToString());
-        if (obj == null) {
-            makeObj();
-            Game.addPlanet(this);
-            number = Game.getNumber();
-            float width = this.GetComponent<Collider>().bounds.size.x;
-            float height = this.GetComponent<Collider>().bounds.size.y;
-            float length = this.GetComponent<Collider>().bounds.size.z;
-            planetRadius = Math.Max(width, Math.Max(height, length)) / 2;
-            //print(ToString() + " " + planetRadius);
+        /*if (Input.GetKeyDown(KeyCode.P)) {
+            SaveSystem.savePlanet(this);
         }
+        else if (Input.GetKeyDown(KeyCode.L)) {
+            load();
+        }*/
+    }
+
+    protected void load() {
+        DataPlanet data = SaveSystem.loadPlanet();
+        radiusAroudSun = data.radiusAroudSun;
+        planetRadius = data.planetRadius;
+        speed = data.speed;
+        angle = data.angle;
+        number = data.number;
+        blocking = data.blocking;
+        gameObject.transform.position = data.position;
+        gameObject.transform.rotation = data.rotation;
     }
 
     public void changePlanet(GameObject toWhat) {
-        Vector3 coords = obj.transform.position;
-        Quaternion then = obj.transform.rotation;
-        string copyName = string.Copy(obj.name);
-        Destroy(this.gameObject);
+        Vector3 coords = transform.position;
+        Quaternion then = transform.rotation;
+        string copyName = string.Copy(gameObject.name);
+        Destroy(gameObject);
         Instantiate(toWhat, coords, then);
-        obj = toWhat;
-        obj.name = copyName;
+        this.name = copyName;
+        Destroy(toWhat);
     }
 
     public float getSpeed() {
@@ -50,7 +68,7 @@ public class Planet : MonoBehaviour, Clickable {
     }
 
     public GameObject getObj() {
-        return obj;
+        return gameObject;
     }
 
     public void addToAngle(float amount) {
@@ -95,6 +113,10 @@ public class Planet : MonoBehaviour, Clickable {
 
     public void unBlock() {
         blocking--;
+    }
+
+    public int amountBlocking() {
+        return blocking;
     }
 
     public bool isBlocked() {

@@ -113,6 +113,10 @@ public class ObjectClick : MonoBehaviour {
                 timeBuildClicked = Time.time;
                 buildingClicked = clicked;
             }
+            else if (clicked != null && clicked.GetComponent<Clickable>().isPlanet()) {
+                Planet planet = clicked.GetComponent<Planet>();
+                Game.getScnLoad().loadMiniScene(planet);
+            }
         }
         if (Game.getInspectMode())
             return;

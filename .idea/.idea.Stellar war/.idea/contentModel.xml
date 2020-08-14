@@ -7,6 +7,7 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Code" t="Include">
+          <e p="AllPlanetData.cs" t="Include" />
           <e p="Building.cs" t="Include" />
           <e p="CameraEdgeMovement.cs" t="Include" />
           <e p="CentralPlanet.cs" t="Include" />
@@ -16,6 +17,7 @@
           <e p="ClickCoords.cs" t="Include" />
           <e p="CompressingRoad.cs" t="Include" />
           <e p="CornerCutting.cs" t="Include" />
+          <e p="DataPlanet.cs" t="Include" />
           <e p="Game.cs" t="Include" />
           <e p="Graph.cs" t="Include" />
           <e p="Indestrucible.cs" t="Include" />
@@ -27,7 +29,10 @@
           <e p="OrbitingPlanet.cs" t="Include" />
           <e p="Planet.cs" t="Include" />
           <e p="RotatePlanet.cs" t="Include" />
+          <e p="SaveSystem.cs" t="Include" />
           <e p="SceneLoader.cs" t="Include" />
+          <e p="SerializableQuaterion.cs" t="Include" />
+          <e p="SerializableVector3.cs" t="Include" />
           <e p="Ship.cs" t="Include" />
           <e p="SpawningSurfaceObjects.cs" t="Include" />
           <e p="Spy.cs" t="Include" />
