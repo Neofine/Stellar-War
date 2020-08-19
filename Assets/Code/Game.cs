@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public static class Game {
@@ -17,6 +18,7 @@ public static class Game {
     private static List<Ship> movableObj = new List<Ship>();
     private static List<Planet> planets = new List<Planet>();
     private static bool inspectMode = false;
+    
 
     static public bool getInspectMode() {
         return inspectMode;
@@ -85,5 +87,9 @@ public static class Game {
 
     static public void addShip(Ship ship) {
         movableObj.Add(ship);
+    }
+
+    static public void erasePlanets() {
+        planets.Clear();
     }
 }

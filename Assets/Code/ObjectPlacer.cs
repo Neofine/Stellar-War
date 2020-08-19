@@ -10,7 +10,7 @@ public class ObjectPlacer : MonoBehaviour {
     private Planet planet1;
 
     private void Start() {
-        planet1 = this.GetComponent<Planet>();
+        planet1 = GetComponent<Planet>();
         rend = new List<Color>();
     }
 
@@ -66,7 +66,9 @@ public class ObjectPlacer : MonoBehaviour {
             }
 
             if (objectPlaced != null) {
-                objectDuringPlacement.AddComponent<Building>();
+                Building building = objectDuringPlacement.AddComponent<Building>();
+                objectPlaced.GetComponent<Planet>().addBuilding(building);
+                print(building);
                 objectDuringPlacement.transform.parent = objectPlaced.transform;
             }
 

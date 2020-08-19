@@ -68,6 +68,7 @@
      <Compile Include="Assets\Code\Clickable.cs" />
      <Compile Include="Assets\Code\CompressingRoad.cs" />
      <Compile Include="Assets\Code\CornerCutting.cs" />
+     <Compile Include="Assets\Code\DataBuilding.cs" />
      <Compile Include="Assets\Code\DataPlanet.cs" />
      <Compile Include="Assets\Code\Game.cs" />
      <Compile Include="Assets\Code\Graph.cs" />
@@ -78,6 +79,7 @@
      <Compile Include="Assets\Code\ObjectClick.cs" />
      <Compile Include="Assets\Code\ObjectPlacer.cs" />
      <Compile Include="Assets\Code\OrbitingPlanet.cs" />
+     <Compile Include="Assets\Code\OverallUtility.cs" />
      <Compile Include="Assets\Code\Planet.cs" />
      <Compile Include="Assets\Code\RotatePlanet.cs" />
      <Compile Include="Assets\Code\SaveSystem.cs" />

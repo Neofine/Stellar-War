@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -10,8 +11,10 @@ public class DataPlanet {
     public float angle;
     public int number;
     public int blocking;
+    public int cratersAdded;
     public SerializableVector3 position;
     public SerializableQuaternion rotation;
+    public DataBuilding[] buildings;
 
     public DataPlanet(Planet planet) {
         radiusAroudSun = planet.getRadSun();
@@ -20,10 +23,16 @@ public class DataPlanet {
         angle = planet.getAngle();
         number = planet.getNumber();
         blocking = planet.amountBlocking();
-        /*position = new float[4];
-        position[0] = planet.gameObject.transform.position.x;
-        position[1] = planet.gameObject.transform.position.y;
-        position[2] = planet.gameObject.transform.position.z;*/
+        cratersAdded = planet.CratersAdded;
+
+        if (planet.getBuildings() != null) {
+            buildings = new DataBuilding[planet.getBuildings().Count];
+            int it = 0;
+            foreach (Building building in planet.getBuildings()) {
+                buildings[it++] = new DataBuilding(building);
+            }
+        }
+        
         position = planet.gameObject.transform.position;
         rotation = planet.gameObject.transform.rotation;
     }

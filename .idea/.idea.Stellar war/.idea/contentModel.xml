@@ -17,6 +17,7 @@
           <e p="ClickCoords.cs" t="Include" />
           <e p="CompressingRoad.cs" t="Include" />
           <e p="CornerCutting.cs" t="Include" />
+          <e p="DataBuilding.cs" t="Include" />
           <e p="DataPlanet.cs" t="Include" />
           <e p="Game.cs" t="Include" />
           <e p="Graph.cs" t="Include" />
@@ -27,6 +28,7 @@
           <e p="ObjectClick.cs" t="Include" />
           <e p="ObjectPlacer.cs" t="Include" />
           <e p="OrbitingPlanet.cs" t="Include" />
+          <e p="OverallUtility.cs" t="Include" />
           <e p="Planet.cs" t="Include" />
           <e p="RotatePlanet.cs" t="Include" />
           <e p="SaveSystem.cs" t="Include" />

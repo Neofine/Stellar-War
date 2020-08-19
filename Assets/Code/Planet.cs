@@ -6,21 +6,23 @@ using UnityEngine;
 public class Planet : MonoBehaviour, Clickable {
     protected float radiusAroudSun;
     protected float planetRadius = 0;
-    protected float speed;
+    protected float speed = 0;
     protected float angle;
     protected int number;
     private int blocking;
+    protected int cratersAdded = 0;
+    protected List<Building> buildings;
+
+    public List<Building> getBuildings() {
+        return buildings;
+    }
 
     public Planet(DataPlanet data) {
-        radiusAroudSun = data.radiusAroudSun;
-        planetRadius = data.planetRadius;
-        speed = data.speed;
-        angle = data.angle;
-        number = data.number;
-        blocking = data.blocking;
-        //gameObject.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
-        gameObject.transform.position = data.position;
-        gameObject.transform.rotation = data.rotation;
+        load(data);
+    }
+
+    public void addBuilding(Building building) {
+        buildings.Add(building);
     }
 
     public Planet() {
@@ -29,24 +31,53 @@ public class Planet : MonoBehaviour, Clickable {
 
 
     void Update() {
-        /*if (Input.GetKeyDown(KeyCode.P)) {
-            SaveSystem.savePlanet(this);
+        if (Input.GetKeyDown(KeyCode.P)) {
+            SaveSystem.savePlanet(this);    
         }
         else if (Input.GetKeyDown(KeyCode.L)) {
-            load();
-        }*/
+            Game.erasePlanets();
+            load(null);
+        }
     }
 
-    protected void load() {
-        DataPlanet data = SaveSystem.loadPlanet();
+    protected void load(DataPlanet toBeLoaded) {
+        DataPlanet data = null;
+        if (toBeLoaded == null)
+            data = SaveSystem.loadPlanet(number);
+        else
+            data = toBeLoaded;
+        int xD = buildings.Count;
+        print(xD + " " + ToString());
+        foreach (Transform child in transform) {
+            string childName = OverallUtility.simplify(child.gameObject.ToString());
+            if (childName != "planet" && childName != "particles")
+                Destroy(child.gameObject);
+        }
         radiusAroudSun = data.radiusAroudSun;
         planetRadius = data.planetRadius;
         speed = data.speed;
         angle = data.angle;
         number = data.number;
+        cratersAdded = data.cratersAdded;
         blocking = data.blocking;
+        buildings = new List<Building>();
+        buildings.Clear();
         gameObject.transform.position = data.position;
         gameObject.transform.rotation = data.rotation;
+        Rigidbody planetRgb = gameObject.GetComponent<Rigidbody>();
+        planetRgb.constraints = RigidbodyConstraints.FreezeAll;
+        if (data.buildings != null) {
+            foreach (DataBuilding datBil in data.buildings) {
+                GameObject building = Instantiate(GameObject.Find(datBil.exactName), datBil.position, datBil.rotation);
+                building.transform.parent = gameObject.transform;
+                Rigidbody rgb = building.GetComponent<Rigidbody>();
+                rgb.constraints = RigidbodyConstraints.FreezeAll;
+                print(building.GetComponent<Building>());
+                buildings.Add(building.GetComponent<Building>());
+            }
+        }
+
+        planetRgb.constraints = RigidbodyConstraints.None;
     }
 
     public void changePlanet(GameObject toWhat) {
@@ -121,5 +152,10 @@ public class Planet : MonoBehaviour, Clickable {
 
     public bool isBlocked() {
         return (blocking != 0);
+    }
+
+    public int CratersAdded {
+        get => cratersAdded;
+        set => cratersAdded = value;
     }
 }

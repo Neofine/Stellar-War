@@ -5,7 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class AllPlanetData {
-    public Planet[] planets;
+    public DataPlanet[] planets;
 
     public AllPlanetData(Planet[] data) {
         Array.Copy(data, planets, planets.Length - 1);
