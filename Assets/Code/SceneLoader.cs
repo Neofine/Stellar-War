@@ -18,8 +18,7 @@ public class SceneLoader : MonoBehaviour {
             Game.inspectModeOn();
             spawned = Instantiate(spawnWhat.getObj(), new Vector3(1000f, 1000f, 1100f), planetRotation);
             spawned.name = "PLANET COPY";
-            //spawned.AddComponent<spawnWhat.GetComponent<Planet>()>("a");
-            //spawned.GetComponent<Planet>() = spawnWhat.GetComponent<Planet>();
+            spawned.GetComponent<Planet>().load(new DataPlanet(spawnWhat), false, new Vector3(1000f, 1000f, 1100f));
             spawned.GetComponent<RotatePlanet>().enabled = true;
             spawned.GetComponent<ObjectPlacer>().enabled = true;
             spawned.GetComponent<CircularMove>().enabled = false;

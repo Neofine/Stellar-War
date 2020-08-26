@@ -18,7 +18,7 @@ public class Planet : MonoBehaviour, Clickable {
     }
 
     public Planet(DataPlanet data) {
-        load(data);
+        load(data, true, Vector3.zero);
     }
 
     public void addBuilding(Building building) {
@@ -36,18 +36,15 @@ public class Planet : MonoBehaviour, Clickable {
         }
         else if (Input.GetKeyDown(KeyCode.L)) {
             Game.erasePlanets();
-            load(null);
+            load(null, true, Vector3.zero);
         }
     }
 
-    protected void load(DataPlanet toBeLoaded) {
-        DataPlanet data = null;
-        if (toBeLoaded == null)
+    public void load(DataPlanet data, bool withLocation, Vector3 center) {
+        print(data + " 1");
+        if (data == null)
             data = SaveSystem.loadPlanet(number);
-        else
-            data = toBeLoaded;
-        int xD = buildings.Count;
-        print(xD + " " + ToString());
+        print(data + " 2");
         foreach (Transform child in transform) {
             string childName = OverallUtility.simplify(child.gameObject.ToString());
             if (childName != "planet" && childName != "particles")
@@ -62,13 +59,15 @@ public class Planet : MonoBehaviour, Clickable {
         blocking = data.blocking;
         buildings = new List<Building>();
         buildings.Clear();
-        gameObject.transform.position = data.position;
-        gameObject.transform.rotation = data.rotation;
+        if (withLocation == true) {
+            gameObject.transform.position = data.position;
+            gameObject.transform.rotation = data.rotation;
+        }
         Rigidbody planetRgb = gameObject.GetComponent<Rigidbody>();
         planetRgb.constraints = RigidbodyConstraints.FreezeAll;
         if (data.buildings != null) {
             foreach (DataBuilding datBil in data.buildings) {
-                GameObject building = Instantiate(GameObject.Find(datBil.exactName), datBil.position, datBil.rotation);
+                GameObject building = Instantiate(GameObject.Find(datBil.exactName), datBil.position + center, datBil.rotation);
                 building.transform.parent = gameObject.transform;
                 Rigidbody rgb = building.GetComponent<Rigidbody>();
                 rgb.constraints = RigidbodyConstraints.FreezeAll;

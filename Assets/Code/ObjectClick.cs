@@ -18,7 +18,7 @@ public class ObjectClick : MonoBehaviour {
 
     private GameObject ShootLaser(Ray ray) {
         RaycastHit hit;
-        int layerMask = 1 << 8;
+        int layerMask = (1 << 8) + (1   << 9);
         layerMask = ~layerMask;
         if (Physics.Raycast(ray, out hit, 10000000.0f, layerMask)) {
             if (hit.transform != null) {
@@ -103,19 +103,20 @@ public class ObjectClick : MonoBehaviour {
     private bool drawBox = false;
 
     void Update () {
+        print(transform.position);
+        
         float timeBetween = Time.time - timer;
         if (Input.GetMouseButtonDown(1)) {
-            print("WOLOLOL");
             GameObject clicked = ShootLaser(Camera.main.ScreenPointToRay(Input.mousePosition));
             if (clicked != null && clicked.GetComponent<Clickable>().isBuilding()) {
-                print("CLICKED BUILDING");
                 highlight(clicked, false);
                 timeBuildClicked = Time.time;
                 buildingClicked = clicked;
             }
             else if (clicked != null && clicked.GetComponent<Clickable>().isPlanet()) {
                 Planet planet = clicked.GetComponent<Planet>();
-                Game.getScnLoad().loadMiniScene(planet);
+                Game.getSwitchCamera().SwitchCamera(planet);
+                //Game.getScnLoad().loadMiniScene(planet);
             }
         }
         if (Game.getInspectMode())
@@ -127,7 +128,8 @@ public class ObjectClick : MonoBehaviour {
             if (timeBetween <= 0.2f) {
                 if (onWatch != null && onWatch.GetComponent<Clickable>().isPlanet()) {
                     Planet planet = onWatch.GetComponent<Planet>();
-                    Game.getScnLoad().loadScene(planet);
+                    Game.getSwitchCamera().SwitchCamera(planet);
+                    //Game.getScnLoad().loadScene(planet);
                 }
             }
             timer = Time.time;

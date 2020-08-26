@@ -14,6 +14,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/SceneLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/OrbitingPlanet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/ClickCoords.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/CameraOnPlanet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Ship.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/ObjectClick.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/DataPlanet.cs" root0="FORCE_HIGHLIGHTING" />
@@ -21,6 +22,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Code/SerializableVector3.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/OverallUtility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Game.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Code/CameraEdgeMovement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/VectorUtility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/DataBuilding.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/ObjectPlacer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -49,7 +51,6 @@
         <option value="$PROJECT_DIR$/Assets/Code/Ship.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/MovementOrganiser.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/ObjectClick.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/SceneLoader.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/SerializableVector3.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/SerializableQuaterion.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/AllPlanetData.cs" />
@@ -61,9 +62,12 @@
         <option value="$PROJECT_DIR$/Assets/Code/DataPlanet.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/OrbitingPlanet.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/ObjectPlacer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Code/Planet.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/Building.cs" />
         <option value="$PROJECT_DIR$/Assets/Code/DataBuilding.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/Planet.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/SceneLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/CameraEdgeMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/Code/CameraOnPlanet.cs" />
       </list>
     </option>
   </component>
@@ -126,6 +130,8 @@
       <workItem from="1597664285010" duration="7153000" />
       <workItem from="1597695237221" duration="1572000" />
       <workItem from="1597838021727" duration="8494000" />
+      <workItem from="1598085954688" duration="1780000" />
+      <workItem from="1598094958453" duration="242000" />
     </task>
     <servers />
   </component>
@@ -146,9 +152,13 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1596570741783" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1597695647068">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1598086859950">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1597695647068" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1598086859950" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1598086103107">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1598086103107" />
   </component>
 </project>

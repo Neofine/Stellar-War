@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraEdgeMovement : MonoBehaviour
-{
+public class CameraEdgeMovement : MonoBehaviour {
     private float vertSpeed = 100f;
     private float horSpeed = 130f;
     private float minFov = 15f;

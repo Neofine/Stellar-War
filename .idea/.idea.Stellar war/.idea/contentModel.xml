@@ -10,6 +10,7 @@
           <e p="AllPlanetData.cs" t="Include" />
           <e p="Building.cs" t="Include" />
           <e p="CameraEdgeMovement.cs" t="Include" />
+          <e p="CameraOnPlanet.cs" t="Include" />
           <e p="CentralPlanet.cs" t="Include" />
           <e p="Chaser.cs" t="Include" />
           <e p="CircularMove.cs" t="Include" />
