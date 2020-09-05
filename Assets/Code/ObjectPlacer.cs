@@ -10,7 +10,7 @@ public class ObjectPlacer : MonoBehaviour {
     private Planet planet1;
 
     private void Start() {
-        planet1 = GetComponent<Planet>();
+        planet1 = GetComponentInParent<Planet>();
         rend = new List<Color>();
     }
 
@@ -40,7 +40,7 @@ public class ObjectPlacer : MonoBehaviour {
         }
 
         if (objectDuringPlacement != null) {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Game.getCameraNow().ScreenPointToRay(Input.mousePosition);
 
             RaycastHit hit;
             int layerMask = (1 << 8) +  (1 << 9);

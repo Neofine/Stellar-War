@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class OrbitingPlanet : Planet {
     public OrbitingPlanet() {
-        radiusAroudSun = 150f;
+        //radiusAroudSun = 150f;
     }
 
 
@@ -15,9 +15,17 @@ public class OrbitingPlanet : Planet {
             buildings = new List<Building>();
             angle = Random.Range(0, 360f);
             speed = 2 * Mathf.PI / Random.Range(60, 120f);
-            float width = GetComponent<Collider>().bounds.size.x;
-            float height = GetComponent<Collider>().bounds.size.y;
-            float length = GetComponent<Collider>().bounds.size.z;
+
+            Collider coll = null;
+            foreach (Transform child in transform) {
+                if (child.gameObject.name == "planet") {
+                    coll = child.gameObject.GetComponent<Collider>();
+                }
+            }
+            float width = coll.bounds.size.x;
+            float height = coll.bounds.size.y;
+            float length = coll.bounds.size.z;
+
             planetRadius = Math.Max(width, Math.Max(height, length)) / 2;
             Game.addPlanet(this);
             number = Game.getNumber();

@@ -7,6 +7,7 @@ using UnityEngine;
 public static class Game {
 
     private static ObjectClick objClick = GameObject.Find("Main Camera").GetComponent<ObjectClick>();
+    private static ObjectClick objClickCloseCam;
     private static SteadyMove stdMove = GameObject.Find("GameObject").GetComponent<SteadyMove>();
     private static Mesh meshClass = GameObject.Find("GameObject").GetComponent<Mesh>();
     private static Graph graph = GameObject.Find("GameObject").GetComponent<Graph>();
@@ -19,6 +20,18 @@ public static class Game {
     private static List<Ship> movableObj = new List<Ship>();
     private static List<Planet> planets = new List<Planet>();
     private static bool inspectMode = false;
+
+    static public void changeObjClick(ObjectClick objCl) {
+        objClickCloseCam = objCl;
+    }
+
+    static public ObjectClick getObjClickClose() {
+        return objClickCloseCam;
+    }
+
+    static public Camera getCameraNow() {
+        return swtPln.getRealCamera();
+    }
 
     static public SwitchToPlanetCamera getSwitchCamera() {
         return swtPln;

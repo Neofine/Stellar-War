@@ -6,30 +6,39 @@ using UnityEngine;
 public class MovementOrganiser : MonoBehaviour {
     private int roadSmoothness = 6;
     private float lastTime = 0.0f;
-    private ObjectClick objCli;
+    //private ObjectClick objCli;
 
     private void Start() {
-        objCli = Game.getObjClick();
+        //objCli = Game.getObjClick();
     }
 
     void Update() {
-        if (Game.getInspectMode() && Time.time - objCli.getTimeBuildClick() < 0.1f) {
-            Vector3 localCoords = objCli.getBuildingClicked().transform.localPosition;
-            Transform[] children = Game.getScnLoad().getOriginal().GetComponentsInChildren<Transform>();
+        //print(objCli.getTimeBuildClick() + " " + Game.getInspectMode());
+        if (Game.getInspectMode() && Time.time - Game.getObjClickClose().getTimeBuildClick() < 0.1f) {
+            print("1");
+            Vector3 localCoords = Game.getObjClickClose().getBuildingClicked().transform.localPosition;
+            Transform[] children = Game.getObjClickClose().getPlanetOfBuilding().GetComponentsInChildren<Transform>();
             List<Ship> objToMove = Game.getObjClick().getObjHighlighted();
             foreach (Transform child in children) {
+                print("2");
                 if (child.localPosition == localCoords) {
-                    foreach (Ship obj in objToMove) {
+                    print("3");
+                    foreach (Ship ship in objToMove) {
                         print(child.position);
-                        obj.startAttack();
-                        calcRoute(obj, child.position, obj.getAttackRange());
-                        //attack(obj, child.position);
+                        ship.startAttack();
+                        if (ship.gameObject.TryGetComponent(out FollowingMovingObject foll)) {
+                            foll.setNewObject(child.gameObject);
+                        }
+                        else {
+                            ship.gameObject.AddComponent<FollowingMovingObject>().setNewObject(child.gameObject);
+                        }
                     }
                 }
             }
         }
 
         if (!Game.getInspectMode() && (Input.GetMouseButtonDown(1) || (Input.GetMouseButton(1) && Time.time - lastTime > 0.2f))) {
+            
             lastTime = Time.time;
             Vector3 mousePos = Input.mousePosition;
             Vector3 gamePos = ClickCoords.getCords();
@@ -44,13 +53,19 @@ public class MovementOrganiser : MonoBehaviour {
                         continue;
 
                     Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
+
+                    if (obj.gameObject.TryGetComponent(out FollowingMovingObject foll)) {
+                        print("SETTING NULL");
+                        foll.setNewObject(null);
+                    }
+                    
                     calcRoute(obj, end, 30);
                 }
             }
         }
     }
 
-    private void calcRoute(Ship ship, Vector3 destination, float setDistance) {
+    public void calcRoute(Ship ship, Vector3 destination, float setDistance) {
         List<Vector3> route;
         float timer = Time.time;
         route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 50, ship, setDistance);

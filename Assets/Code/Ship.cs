@@ -7,7 +7,7 @@ public abstract class Ship : MonoBehaviour, Clickable {
     private GameObject obj;
     protected float speed;
     protected int faction = 1;
-    protected float attackRange = 10f;
+    public float attackRange = 50f;
     protected bool duringAttack = false;
 
     void makeObj() {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Planet : MonoBehaviour, Clickable {
-    protected float radiusAroudSun;
+    public float radiusAroudSun;
     protected float planetRadius = 0;
     protected float speed = 0;
     protected float angle;
@@ -41,10 +41,8 @@ public class Planet : MonoBehaviour, Clickable {
     }
 
     public void load(DataPlanet data, bool withLocation, Vector3 center) {
-        print(data + " 1");
         if (data == null)
             data = SaveSystem.loadPlanet(number);
-        print(data + " 2");
         foreach (Transform child in transform) {
             string childName = OverallUtility.simplify(child.gameObject.ToString());
             if (childName != "planet" && childName != "particles")
