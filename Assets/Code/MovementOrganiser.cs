@@ -58,12 +58,12 @@ public class MovementOrganiser : MonoBehaviour {
                         //print("SETTING NULL");
                         foll.setNewObject(null);
                     }
-
+                    obj.changeDest(end);
                     calcRoute(obj, end, 30);
                 }
-                if (objToMove.Count != 1) {
-                    Game.getMultiFlight().manage(objToMove, end);
-                }
+                //if (objToMove.Count != 1) {
+                //    Game.getMultiFlight().manage(objToMove, end);
+                //}
             }
         }
     }

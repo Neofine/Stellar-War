@@ -12,6 +12,8 @@ public abstract class Ship : MonoBehaviour, Clickable {
     protected bool duringAttack = false;
     protected Vector3 lastPosition;
     protected float reservedRadius = 10;
+    public Vector3 destination = Vector3.zero;
+    private int amount = 0;
 
     void makeObj() {
         obj = this.gameObject;
@@ -21,7 +23,22 @@ public abstract class Ship : MonoBehaviour, Clickable {
         return attackRange;
     }
 
+    public void changeDest(Vector3 dest) {
+        destination = dest;
+        amount = 0;
+    }
+
     void Update() {
+        if (destination != Vector3.zero && !Game.getStdMove().isShipMoving(this)) {
+            if (Game.getGraph().isBlocked(transform.position, this)) {
+                print("CHANGED");
+                Game.getMovOrg().calcRoute(this, destination, 50);
+            }
+            else if (amount > 20) {
+                destination = Vector3.zero;
+            }
+            amount++;
+        }
         //print(isMoving);
         //print(this.ToString() + " " + isMoving);
         if (obj == null) {
