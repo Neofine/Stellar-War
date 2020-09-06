@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spy : Ship {
     void Start() {
         speed = 1.5f;
+        reservedRadius = 20f;
     }
 
     public override string toString() {

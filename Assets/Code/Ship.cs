@@ -8,7 +8,10 @@ public abstract class Ship : MonoBehaviour, Clickable {
     protected float speed;
     protected int faction = 1;
     public float attackRange = 50f;
+    protected bool isMoving = false;
     protected bool duringAttack = false;
+    protected Vector3 lastPosition;
+    protected float reservedRadius = 10;
 
     void makeObj() {
         obj = this.gameObject;
@@ -17,14 +20,31 @@ public abstract class Ship : MonoBehaviour, Clickable {
     public float getAttackRange() {
         return attackRange;
     }
-	
-	void Update () {
+
+    void Update() {
+        //print(isMoving);
+        //print(this.ToString() + " " + isMoving);
         if (obj == null) {
             makeObj();
             Game.addShip(this);
         }
-            
-	}
+        //print(transform.position + " " + lastPosition);
+        if (transform.position != lastPosition) {
+            isMoving = true;
+        }
+        else {
+            isMoving = false;
+        }
+        lastPosition = transform.position;
+    }
+
+    public float getRadius() {
+        return reservedRadius;
+    }
+
+    public bool inMovement() {
+        return isMoving;
+    }
 
     public GameObject getObj() {
         return obj;

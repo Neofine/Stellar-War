@@ -17,9 +17,18 @@ public static class Game {
     private static MovementOrganiser movOrg = GameObject.Find("GameObject").GetComponent<MovementOrganiser>();
     private static SceneLoader scnLoad = GameObject.Find("GameObject").GetComponent<SceneLoader>();
     private static SwitchToPlanetCamera swtPln = GameObject.Find("GameObject").GetComponent<SwitchToPlanetCamera>();
-    private static List<Ship> movableObj = new List<Ship>();
+    private static MultiFlightManager multFlMan = GameObject.Find("GameObject").GetComponent<MultiFlightManager>();
+
+    private static List<Ship> ships = new List<Ship>();
     private static List<Planet> planets = new List<Planet>();
+
     private static bool inspectMode = false;
+
+
+
+    static public MultiFlightManager getMultiFlight() {
+        return multFlMan;
+    }
 
     static public void changeObjClick(ObjectClick objCl) {
         objClickCloseCam = objCl;
@@ -86,8 +95,8 @@ public static class Game {
         return stdMove;
     }
 
-    static public List<Ship> getMovableObj() {
-        return movableObj;
+    static public List<Ship> getShips() {
+        return ships;
     }
 
     static public List<Planet> getPlanets() {
@@ -103,7 +112,7 @@ public static class Game {
     }
 
     static public void addShip(Ship ship) {
-        movableObj.Add(ship);
+        ships.Add(ship);
     }
 
     static public void erasePlanets() {

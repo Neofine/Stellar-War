@@ -92,6 +92,7 @@ public class SteadyMove : MonoBehaviour {
                         objToMove.Add(getNextDest(objNow));
                     }
                     else {
+                        // This is very precious source of information, don't delete!
                         print("AUTO PILOT END IN: " + (Time.time - debugTimer));
                         objNow.obj.getObj().GetComponent<MeshCollider>().enabled = true;
                     }
@@ -125,7 +126,17 @@ public class SteadyMove : MonoBehaviour {
         return ans;
     }
 
+    public bool isShipMoving(Ship what) {
+        for (int i = 0; i < objToMove.Count; i++) {
+            ObjDestination objNow = objToMove[i];
+            if (objNow.obj == what)
+                return true;
+        }
+        return false;
+    }
+
     public void queueMove(List <Vector3> queue, Ship onWhat) {
+        //print("QUEUING MOVE");
         float timer = Time.time;
         onWhat.getObj().GetComponent<MeshCollider>().enabled = false;
         debugTimer = Time.time;
@@ -135,7 +146,7 @@ public class SteadyMove : MonoBehaviour {
         queue.Remove(queue.First());
         move(onWhat, firstDirection);
         moveQueue.Add(onWhat, queue);
-        print("QUEUING TIME: " + (Time.time - timer));
+        //print("QUEUING TIME: " + (Time.time - timer));
     }
 
     public void follow(GameObject what, Ship with) {

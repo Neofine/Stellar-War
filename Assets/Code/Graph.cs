@@ -39,7 +39,7 @@ public class Graph : MonoBehaviour {
         }
     }
 
-    private bool isBlocked(Vector3 what) {
+    public bool isBlocked(Vector3 what, Ship asking = null) {
         foreach (Planet planet in Game.getPlanets()) {
             Vector3 plnPos = planet.getObj().transform.position;
             float radius = planet.getRadPln() + distanceFromSurf;
@@ -49,6 +49,27 @@ public class Graph : MonoBehaviour {
             if (xsquared + ysquared + zsquared <= radius * radius)
                 return true;
         }
+        foreach (Ship ship in Game.getShips()) {
+            //if (asking != null)
+            // print(ship.gameObject.transform.position + " " + asking.transform.position);
+            if (ship.inMovement() || (asking != null && asking == ship))
+                continue;
+           // if (asking != null)
+            //  print("Looking at it");
+            Vector3 pos = ship.getObj().transform.position;
+            float radius = ship.getRadius();
+            float xsquared = (what.x - pos.x) * (what.x - pos.x);
+            float ysquared = (what.y - pos.y) * (what.y - pos.y);
+            float zsquared = (what.z - pos.z) * (what.z - pos.z);
+            if (xsquared + ysquared + zsquared <= radius * radius) {
+                //if (asking != null)
+                //    print("BLOCKED");
+                return true;
+            }
+                
+        }
+      //  if (asking != null)
+          //  print("NOT BLOCKEd");
         return false;
     }
 
@@ -86,6 +107,7 @@ public class Graph : MonoBehaviour {
         if (isBlocked(end)) {
             end = chooseNearest(end);
         }
+        //print("NEW END IS IN: " + end);
         
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
@@ -122,8 +144,11 @@ public class Graph : MonoBehaviour {
                         Vector3 changing = new Vector3(x * routePrecision, y * routePrecision, z * routePrecision);
                         Vector3 newVector = inPoint + changing;
                         // !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship)
-                        if (isBlocked(newVector) || newVector == inPoint)
+                        if (newVector == inPoint)
                             continue;
+                        if (isBlocked(newVector))
+                            newVector = chooseNearest(newVector);
+                        
                         float toEnd = VectorUtility.vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);
                         Point newPoint = new Point(newVector, costToStart, toEnd, examined.Item2);

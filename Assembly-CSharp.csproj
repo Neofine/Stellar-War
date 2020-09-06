@@ -83,6 +83,7 @@
     <Compile Include="Assets\Code\Indestrucible.cs" />
     <Compile Include="Assets\Code\Mesh.cs" />
     <Compile Include="Assets\Code\MovementOrganiser.cs" />
+    <Compile Include="Assets\Code\MultiFlightManager.cs" />
     <Compile Include="Assets\Code\MultiVarFun.cs" />
     <Compile Include="Assets\Code\ObjectClick.cs" />
     <Compile Include="Assets\Code\ObjectPlacer.cs" />

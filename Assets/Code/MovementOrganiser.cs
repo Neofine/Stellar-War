@@ -13,7 +13,6 @@ public class MovementOrganiser : MonoBehaviour {
     }
 
     void Update() {
-        //print(objCli.getTimeBuildClick() + " " + Game.getInspectMode());
         if (Game.getInspectMode() && Time.time - Game.getObjClickClose().getTimeBuildClick() < 0.1f) {
             print("1");
             Vector3 localCoords = Game.getObjClickClose().getBuildingClicked().transform.localPosition;
@@ -38,13 +37,14 @@ public class MovementOrganiser : MonoBehaviour {
         }
 
         if (!Game.getInspectMode() && (Input.GetMouseButtonDown(1) || (Input.GetMouseButton(1) && Time.time - lastTime > 0.2f))) {
-            
+
             lastTime = Time.time;
             Vector3 mousePos = Input.mousePosition;
             Vector3 gamePos = ClickCoords.getCords();
             List<Ship> objToMove = Game.getObjClick().getObjHighlighted();
 
             if (objToMove != null && objToMove.Count != 0) {
+                Vector3 end = Vector3.zero;
                 foreach (Ship obj in objToMove) {
                     Vector3 position = obj.getObj().transform.position;
 
@@ -52,14 +52,17 @@ public class MovementOrganiser : MonoBehaviour {
                         Mathf.Abs(ClickCoords.getZ(position, gamePos) - position.z) <= 5)
                         continue;
 
-                    Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
+                    end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
 
                     if (obj.gameObject.TryGetComponent(out FollowingMovingObject foll)) {
-                        print("SETTING NULL");
+                        //print("SETTING NULL");
                         foll.setNewObject(null);
                     }
-                    
+
                     calcRoute(obj, end, 30);
+                }
+                if (objToMove.Count != 1) {
+                    Game.getMultiFlight().manage(objToMove, end);
                 }
             }
         }
@@ -85,8 +88,8 @@ public class MovementOrganiser : MonoBehaviour {
         Vector3 destination = Game.getStdMove().getDest(ship);
         if (destination != Vector3.zero) {
             if (ship.isAttacking())
-               calcRoute(ship, destination, ship.getAttackRange());
-            else 
+                calcRoute(ship, destination, ship.getAttackRange());
+            else
                 calcRoute(ship, destination, 30);
         }
     }

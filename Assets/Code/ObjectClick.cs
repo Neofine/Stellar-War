@@ -79,7 +79,7 @@ public class ObjectClick : MonoBehaviour {
         ySmall = Mathf.Min(start.z, end.z);
         yBig = Mathf.Max(start.z, end.z);
 
-        foreach (Ship ship in Game.getMovableObj()) {
+        foreach (Ship ship in Game.getShips()) {
             Vector3 pos = ship.getObj().transform.position;
             float xs, xb, ys, yb;
             xs = ClickCoords.getXSpec(pos, new Vector3(xSmall, 0f, yBig));
