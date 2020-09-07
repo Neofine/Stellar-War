@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementOrganiser : MonoBehaviour {
-    private int roadSmoothness = 6;
+    private int roadSmoothness = 3;
     private float lastTime = 0.0f;
     //private ObjectClick objCli;
 
@@ -37,14 +37,12 @@ public class MovementOrganiser : MonoBehaviour {
         }
 
         if (!Game.getInspectMode() && (Input.GetMouseButtonDown(1) || (Input.GetMouseButton(1) && Time.time - lastTime > 0.2f))) {
-
             lastTime = Time.time;
-            Vector3 mousePos = Input.mousePosition;
+
             Vector3 gamePos = ClickCoords.getCords();
             List<Ship> objToMove = Game.getObjClick().getObjHighlighted();
 
             if (objToMove != null && objToMove.Count != 0) {
-                Vector3 end = Vector3.zero;
                 foreach (Ship obj in objToMove) {
                     Vector3 position = obj.getObj().transform.position;
 
@@ -52,26 +50,22 @@ public class MovementOrganiser : MonoBehaviour {
                         Mathf.Abs(ClickCoords.getZ(position, gamePos) - position.z) <= 5)
                         continue;
 
-                    end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
+                    Vector3 end = new Vector3(ClickCoords.getX(position, gamePos), Game.getMesh().getHeight(), ClickCoords.getZ(position, gamePos));
 
                     if (obj.gameObject.TryGetComponent(out FollowingMovingObject foll)) {
-                        //print("SETTING NULL");
                         foll.setNewObject(null);
                     }
                     obj.changeDest(end);
-                    calcRoute(obj, end, 30);
+                    calcRoute(obj, end, 100);
                 }
-                //if (objToMove.Count != 1) {
-                //    Game.getMultiFlight().manage(objToMove, end);
-                //}
             }
         }
     }
 
-    public void calcRoute(Ship ship, Vector3 destination, float setDistance) {
+    public void calcRoute(Ship ship, Vector3 destination, float routePrecision, float planetDist = 70) {
         List<Vector3> route;
         float timer = Time.time;
-        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, 50, ship, setDistance);
+        route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, routePrecision, ship, planetDist);
 
         if (route != null && route.Count != 0) {
             route.Reverse();
@@ -90,7 +84,8 @@ public class MovementOrganiser : MonoBehaviour {
             if (ship.isAttacking())
                 calcRoute(ship, destination, ship.getAttackRange());
             else
-                calcRoute(ship, destination, 30);
+                calcRoute(ship, destination, 100
+                    );
         }
     }
 }

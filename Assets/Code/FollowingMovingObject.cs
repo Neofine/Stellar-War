@@ -8,6 +8,7 @@ public class FollowingMovingObject : MonoBehaviour {
     private Ship ship;
     private Planet planet;
     private MeshCollider coll;
+    private float lastOrder;
 
     private void Start() {
         ship = GetComponent<Ship>();
@@ -22,11 +23,11 @@ public class FollowingMovingObject : MonoBehaviour {
         }
         
         coll.enabled = false;
-        if (VectorUtility.vecLength(transform.position, follWhat.transform.position) > ship.getAttackRange()) {
-            Game.getMovOrg().calcRoute(ship, follWhat.transform.position, 10);
-        }
-        else if (planet != null && VectorUtility.vecLength(transform.position, planet.gameObject.transform.position) - 10 < planet.getRadPln()) {
-            Game.getMovOrg().calcRoute(ship, follWhat.transform.position, 10);
+        if ((VectorUtility.vecLength(transform.position, follWhat.transform.position) > ship.getAttackRange() || 
+            (planet != null && VectorUtility.vecLength(transform.position, planet.gameObject.transform.position) - 30 < planet.getRadPln())) &&
+             Time.time - lastOrder > 0.2f) {
+            lastOrder = Time.time;
+            Game.getMovOrg().calcRoute(ship, follWhat.transform.position, 50, 20);
         }
         else {
             transform.LookAt(follWhat.transform.position);

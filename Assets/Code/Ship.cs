@@ -15,6 +15,10 @@ public abstract class Ship : MonoBehaviour, Clickable {
     public Vector3 destination = Vector3.zero;
     private int amount = 0;
 
+    protected void basicFunctions() {
+        InvokeRepeating("checkBlockedness", 0, 0.1f);
+    }
+
     void makeObj() {
         obj = this.gameObject;
     }
@@ -28,10 +32,10 @@ public abstract class Ship : MonoBehaviour, Clickable {
         amount = 0;
     }
 
-    void Update() {
+    private void checkBlockedness() {
         if (destination != Vector3.zero && !Game.getStdMove().isShipMoving(this)) {
             if (Game.getGraph().isBlocked(transform.position, this)) {
-                print("CHANGED");
+                //print("CHANGED");
                 Game.getMovOrg().calcRoute(this, destination, 50);
             }
             else if (amount > 20) {
@@ -39,6 +43,10 @@ public abstract class Ship : MonoBehaviour, Clickable {
             }
             amount++;
         }
+    }
+
+    void Update() {
+        
         //print(isMoving);
         //print(this.ToString() + " " + isMoving);
         if (obj == null) {

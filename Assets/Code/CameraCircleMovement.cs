@@ -6,8 +6,8 @@ public class CameraCircleMovement : MonoBehaviour {
     private Planet planet;
     private float cameraRadius;
     private bool nowSub, nowAdd;
-    private float angle = 10;
-    private float delta = 0.05f;
+    //private float angle = 10;
+    //private float delta = 0.05f;
 
     void Start() {
         planet = transform.parent.GetComponent<Planet>();

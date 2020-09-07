@@ -7,7 +7,6 @@ public class SteadyMove : MonoBehaviour {
 
     private List<ObjDestination> objToMove;
     private Dictionary<Ship, List<Vector3>> moveQueue;
-    private List<Tuple<Ship, GameObject>> following;
     public float tpLength;
     public float almostZero = 0.01f;
 
@@ -29,7 +28,6 @@ public class SteadyMove : MonoBehaviour {
 
     float debugTimer;
 	void Update() {
-        float timer = Time.time;
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
                 ObjDestination objNow = objToMove[i];
@@ -93,20 +91,9 @@ public class SteadyMove : MonoBehaviour {
                     }
                     else {
                         // This is very precious source of information, don't delete!
-                        print("AUTO PILOT END IN: " + (Time.time - debugTimer));
+                        //print("AUTO PILOT END IN: " + (Time.time - debugTimer));
                         objNow.obj.getObj().GetComponent<MeshCollider>().enabled = true;
                     }
-                }
-            }
-        }
-
-        if (following != null) {
-            foreach (Tuple<Ship, GameObject> follower in following) {
-                Ship attacker = follower.Item1;
-                GameObject dest = follower.Item2;
-                if (VectorUtility.vecLength(attacker.getObj().transform.position, dest.transform.position) <
-                    attacker.getAttackRange()) {
-                    
                 }
             }
         }
@@ -120,6 +107,7 @@ public class SteadyMove : MonoBehaviour {
         }
         return answer;
     }
+
     private ObjDestination getNextDest(ObjDestination examined) {
         ObjDestination ans = new ObjDestination(examined.obj, moveQueue[examined.obj].First());
         moveQueue[examined.obj].Remove(moveQueue[examined.obj].First());
@@ -136,8 +124,6 @@ public class SteadyMove : MonoBehaviour {
     }
 
     public void queueMove(List <Vector3> queue, Ship onWhat) {
-        //print("QUEUING MOVE");
-        float timer = Time.time;
         onWhat.getObj().GetComponent<MeshCollider>().enabled = false;
         debugTimer = Time.time;
         if (moveQueue.ContainsKey(onWhat))
@@ -146,12 +132,8 @@ public class SteadyMove : MonoBehaviour {
         queue.Remove(queue.First());
         move(onWhat, firstDirection);
         moveQueue.Add(onWhat, queue);
-        //print("QUEUING TIME: " + (Time.time - timer));
     }
 
-    public void follow(GameObject what, Ship with) {
-        
-    }
 
     public Vector3 getDest(Ship ship) {
         if (moveQueue.ContainsKey(ship) && moveQueue[ship].Count != 0)

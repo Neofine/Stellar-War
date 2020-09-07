@@ -10,7 +10,6 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Graph : MonoBehaviour {
     private float distanceFromSurf;
-
     private class Point{
         public Vector3 point;
         public Point cameFrom;
@@ -101,14 +100,13 @@ public class Graph : MonoBehaviour {
         return point;
     }
  
-    public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship, float setDistance) {
-        distanceFromSurf = setDistance;
+    public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship, float planetDist = 70) {
+        distanceFromSurf = planetDist;
         float timer = Time.time;
         if (isBlocked(end)) {
             end = chooseNearest(end);
         }
-        //print("NEW END IS IN: " + end);
-        
+
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
         Dictionary<Vector3, float> cost = new Dictionary<Vector3, float>();
         float minCost = VectorUtility.vecLength(start, end);
@@ -125,14 +123,12 @@ public class Graph : MonoBehaviour {
                 continue;
             }
 
-            if (VectorUtility.vecLength(inPoint, end) <= 3 * routePrecision) {
-                if (routePrecision <= 5)
+            if (VectorUtility.vecLength(inPoint, end) <= 2 * routePrecision) {
+                if (routePrecision <= 10)
                     return extractPath(start, examined.Item2);
                 
                 List<Vector3> now = extractPath(start, examined.Item2);
-                List<Vector3> close = planRoute(inPoint, end, routePrecision / 5, ship, setDistance);
-                if (close == null)
-                    return null;
+                List<Vector3> close = planRoute(inPoint, end, routePrecision / 2, ship);
                 close.AddRange(now);
 
                 return close;
@@ -166,6 +162,7 @@ public class Graph : MonoBehaviour {
                 }
             }
         }
+        // Surprisingly very informative comment.
         print("WTFTFTFTFTFTFTFTFT");
         return null;
     }
