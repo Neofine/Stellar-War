@@ -52,6 +52,7 @@ public class SwitchToPlanetCamera : MonoBehaviour {
     }
 
     public void makeMiniCamera(Planet planet) {
+        quitMiniCamera();
         foreach (Transform child in planet.getObj().transform) {
             if (child.gameObject.name == "Camera") {
                 miniCamera = child.gameObject.GetComponent<Camera>();
@@ -61,16 +62,18 @@ public class SwitchToPlanetCamera : MonoBehaviour {
         miniCamera.cullingMask = 1 << 10;
         miniCamera.cullingMask = ~miniCamera.cullingMask;
 
-        miniCamera.depth = 0;
+        miniCamera.depth = 10;
         miniCamera.enabled = true;
 
         miniCamera.rect = new Rect(new Vector2(0.8f, 0.6f), new Vector2(0.3f, 0.3f));
     }
 
     public void quitMiniCamera() {
-        miniCamera.depth = -2;
-        miniCamera.enabled = false;
-        miniCamera = null;
+        if (miniCamera != null) {
+            miniCamera.depth = -2;
+            miniCamera.enabled = false;
+            miniCamera = null;
+        }
     }
 
     public void hideMiniCamera() {

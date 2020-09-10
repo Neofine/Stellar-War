@@ -31,6 +31,10 @@ public class SteadyMove : MonoBehaviour {
         if (objToMove != null && objToMove.Count != 0) {
             for (int i = 0; i < objToMove.Count; i++) {
                 ObjDestination objNow = objToMove[i];
+                if (objNow.obj == null) {
+                    objToMove.Remove(objNow);
+                    i--;
+                }
                 tpLength = objNow.obj.getSpeed() * Time.deltaTime * 60;
                 Vector3 position = objNow.obj.transform.position;
 

@@ -14,16 +14,13 @@ public class MovementOrganiser : MonoBehaviour {
 
     void Update() {
         if (Game.getInspectMode() && Time.time - Game.getObjClickClose().getTimeBuildClick() < 0.1f) {
-            print("1");
             Vector3 localCoords = Game.getObjClickClose().getBuildingClicked().transform.localPosition;
             Transform[] children = Game.getObjClickClose().getPlanetOfBuilding().GetComponentsInChildren<Transform>();
             List<Ship> objToMove = Game.getObjClick().getObjHighlighted();
+
             foreach (Transform child in children) {
-                print("2");
                 if (child.localPosition == localCoords) {
-                    print("3");
                     foreach (Ship ship in objToMove) {
-                        print(child.position);
                         ship.startAttack();
                         if (ship.gameObject.TryGetComponent(out FollowingMovingObject foll)) {
                             foll.setNewObject(child.gameObject);
@@ -64,7 +61,6 @@ public class MovementOrganiser : MonoBehaviour {
 
     public void calcRoute(Ship ship, Vector3 destination, float routePrecision, float planetDist = 70) {
         List<Vector3> route;
-        float timer = Time.time;
         route = Game.getGraph().planRoute(ship.getObj().transform.position, destination, routePrecision, ship, planetDist);
 
         if (route != null && route.Count != 0) {
@@ -84,8 +80,7 @@ public class MovementOrganiser : MonoBehaviour {
             if (ship.isAttacking())
                 calcRoute(ship, destination, ship.getAttackRange());
             else
-                calcRoute(ship, destination, 100
-                    );
+                calcRoute(ship, destination, 100);
         }
     }
 }

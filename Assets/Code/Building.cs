@@ -8,6 +8,8 @@ public class Building : MonoBehaviour, Clickable {
     private bool added;
     private GameObject disturbing;
     private string exactName = null;
+    protected float health = 200;
+
     private void Start() {
         planetNr = 0;
         exactName = OverallUtility.simplify(gameObject.ToString());
@@ -15,7 +17,15 @@ public class Building : MonoBehaviour, Clickable {
         added = false;
         //planet = gameObject.GetComponentInParent<Planet>();
     }
-    
+
+    public void changeHealthBy(float amount) {
+        health += amount;
+        print("BUILDING HEALTH: " + health);
+        if (health <= 0) {
+            Destroy(this.gameObject);
+        }
+    }
+
 
     public string getName() {
         return exactName;

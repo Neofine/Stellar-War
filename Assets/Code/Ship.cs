@@ -6,17 +6,27 @@ public abstract class Ship : MonoBehaviour, Clickable {
 
     private GameObject obj;
     protected float speed;
-    protected int faction = 1;
+    public bool isPlayers = true;
     public float attackRange = 50f;
     protected bool isMoving = false;
     protected bool duringAttack = false;
     protected Vector3 lastPosition;
     protected float reservedRadius = 10;
-    public Vector3 destination = Vector3.zero;
+    protected Vector3 destination = Vector3.zero;
     private int amount = 0;
+    protected float health = 100;
 
     protected void basicFunctions() {
         InvokeRepeating("checkBlockedness", 0, 0.1f);
+    }
+
+    public void changeHealthBy(float amount) {
+        health += amount;
+        print("HEALTH NOW: " + health);
+        if (health <= 0) {
+            Game.deleteShip(this);
+            Destroy(this.gameObject);
+        }
     }
 
     void makeObj() {
@@ -32,10 +42,13 @@ public abstract class Ship : MonoBehaviour, Clickable {
         amount = 0;
     }
 
+    public bool isFriendly() {
+        return isPlayers;
+    }
+
     private void checkBlockedness() {
         if (destination != Vector3.zero && !Game.getStdMove().isShipMoving(this)) {
             if (Game.getGraph().isBlocked(transform.position, this)) {
-                //print("CHANGED");
                 Game.getMovOrg().calcRoute(this, destination, 50);
             }
             else if (amount > 20) {

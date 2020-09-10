@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Code\AllPlanetData.cs" />
+    <Compile Include="Assets\Code\AttackingObject.cs" />
     <Compile Include="Assets\Code\Building.cs" />
     <Compile Include="Assets\Code\CameraCircleMovement.cs" />
     <Compile Include="Assets\Code\CameraEdgeMovement.cs" />

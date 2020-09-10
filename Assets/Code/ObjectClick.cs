@@ -12,7 +12,6 @@ public class ObjectClick : MonoBehaviour {
     private float timeBuildClicked;
 
 	void Start () {
-        //print("STARTING OBJECT CLICK XD");
         outline = Shader.Find("Outlined/Diffuse");
         normal = Shader.Find("Standard");
 	}
@@ -86,7 +85,7 @@ public class ObjectClick : MonoBehaviour {
             xb = ClickCoords.getXSpec(pos, new Vector3(xBig, 0f, ySmall));
             ys = ClickCoords.getZSpec(pos, new Vector3(xBig, 0f, ySmall));
             yb = ClickCoords.getZSpec(pos, new Vector3(xSmall, 0f, yBig));
-            if (pos.x <= xb && pos.x >= xs && pos.z <= yb && pos.z >= ys) {
+            if (pos.x <= xb && pos.x >= xs && pos.z <= yb && pos.z >= ys && ship.isFriendly()) {
                 highlight(ship.getObj(), true);
             }
         }
@@ -116,11 +115,22 @@ public class ObjectClick : MonoBehaviour {
                 buildingClicked = clicked;
             }
         }
-        if (Input.GetMouseButtonDown(1) && !Game.getInspectMode() && isEmpty()) {
+        if (Input.GetMouseButtonDown(1) && !Game.getInspectMode()) {
             GameObject clicked = ShootLaser(Game.getCameraNow().ScreenPointToRay(Input.mousePosition), true);
-            if (clicked != null && clicked.GetComponent<Clickable>().isPlanet()) {
+            if (clicked != null && clicked.GetComponent<Clickable>().isPlanet() && isEmpty()) {
                 Planet planet = clicked.GetComponent<Planet>();
                 Game.getSwitchCamera().makeMiniCamera(planet);
+            }
+            else if (clicked != null && clicked.GetComponent<Clickable>().isShip()) {
+                //Ship clickedShip = clicked.GetComponent<Ship>();
+                foreach(Ship ship in objHighlighted) {
+                    if (ship.TryGetComponent(out FollowingMovingObject follow)) {
+                        follow.setNewObject(clicked);
+                    }
+                    else {
+                        ship.gameObject.AddComponent<FollowingMovingObject>().setNewObject(clicked);
+                    }
+                }
             }
         }
         

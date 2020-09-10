@@ -8,7 +8,9 @@ public class FollowingMovingObject : MonoBehaviour {
     private Ship ship;
     private Planet planet;
     private MeshCollider coll;
-    private float lastOrder;
+    private float lastOrder = 0;
+    private bool amIAttacking;
+    private float lastAttacked = 0;
 
     private void Start() {
         ship = GetComponent<Ship>();
@@ -23,11 +25,20 @@ public class FollowingMovingObject : MonoBehaviour {
         }
         
         coll.enabled = false;
+
+
         if ((VectorUtility.vecLength(transform.position, follWhat.transform.position) > ship.getAttackRange() || 
             (planet != null && VectorUtility.vecLength(transform.position, planet.gameObject.transform.position) - 30 < planet.getRadPln())) &&
-             Time.time - lastOrder > 0.2f) {
+             Time.time - lastOrder > 1f) {
             lastOrder = Time.time;
-            Game.getMovOrg().calcRoute(ship, follWhat.transform.position, 50, 20);
+            if ((VectorUtility.vecLength(transform.position, follWhat.transform.position) < 2 * ship.getAttackRange()))
+               Game.getMovOrg().calcRoute(ship, follWhat.transform.position, 50, ship.getAttackRange() / 2);
+            else
+                Game.getMovOrg().calcRoute(ship, follWhat.transform.position, 100);
+        }
+        else if (amIAttacking && (VectorUtility.vecLength(transform.position, follWhat.transform.position) <= ship.getAttackRange()) && Time.time - lastAttacked > 2f) {
+            lastAttacked = Time.time;
+            Game.getAttackObj().shootBullet(transform.position, follWhat);
         }
         else {
             transform.LookAt(follWhat.transform.position);
@@ -35,12 +46,13 @@ public class FollowingMovingObject : MonoBehaviour {
         }
     }
 
-    public void setNewObject(GameObject what) {
+    public void setNewObject(GameObject what, bool willItAttack = true) {
         if (what == null) {
             follWhat = null;
             planet = null;
             return;
         }
+        amIAttacking = willItAttack;
         follWhat = what;
         if (what.TryGetComponent(out Building building)) {
             planet = building.transform.parent.GetComponent<Planet>();

@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 using Vector3 = UnityEngine.Vector3;
 
 public class Graph : MonoBehaviour {
-    private float distanceFromSurf;
     private class Point{
         public Vector3 point;
         public Point cameFrom;
@@ -38,7 +37,7 @@ public class Graph : MonoBehaviour {
         }
     }
 
-    public bool isBlocked(Vector3 what, Ship asking = null) {
+    public bool isBlocked(Vector3 what, Ship asking = null, float distanceFromSurf = 70) {
         foreach (Planet planet in Game.getPlanets()) {
             Vector3 plnPos = planet.getObj().transform.position;
             float radius = planet.getRadPln() + distanceFromSurf;
@@ -73,10 +72,10 @@ public class Graph : MonoBehaviour {
     }
 
     private Vector3 point;
-    private bool hasFreePoints(Vector3 center, float radius) {
+    private bool hasFreePoints(Vector3 center, float radius, Ship ship, float planetDist) {
         for (int i = 1; i <= 10; i++) {
             Vector3 randomPoint = VectorUtility.getRandPoint(center, radius);
-            if (!isBlocked(randomPoint)) {
+            if (!isBlocked(randomPoint, ship, planetDist)) {
                 point = randomPoint;
                 return true;
             }
@@ -84,15 +83,15 @@ public class Graph : MonoBehaviour {
         return false;
     }
 
-    Vector3 chooseNearest(Vector3 dest) {
-        if (!isBlocked(dest))
+    Vector3 chooseNearest(Vector3 dest, Ship ship, float planetDist) {
+        if (!isBlocked(dest, ship, planetDist))
             return dest;
         float left = 5f;
         float right = 100f;
         float mid = 0;
         while (mid != (left + right) / 2) {
             mid = (left + right) / 2;    
-            if (hasFreePoints(dest, mid)) {
+            if (hasFreePoints(dest, mid, ship, planetDist)) {
                 right = mid;
             }
             else left = mid + 1;
@@ -101,10 +100,8 @@ public class Graph : MonoBehaviour {
     }
  
     public List<Vector3> planRoute(Vector3 start, Vector3 end, float routePrecision, Ship ship, float planetDist = 70) {
-        distanceFromSurf = planetDist;
-        float timer = Time.time;
-        if (isBlocked(end)) {
-            end = chooseNearest(end);
+        if (isBlocked(end, ship, planetDist)) {
+            end = chooseNearest(end, ship, planetDist);
         }
 
         SortedSet<Tuple<float, Point>> queue = new SortedSet<Tuple<float, Point>>(new TupleComparer());
@@ -128,7 +125,7 @@ public class Graph : MonoBehaviour {
                     return extractPath(start, examined.Item2);
                 
                 List<Vector3> now = extractPath(start, examined.Item2);
-                List<Vector3> close = planRoute(inPoint, end, routePrecision / 2, ship);
+                List<Vector3> close = planRoute(inPoint, end, routePrecision / 2, ship, planetDist);
                 close.AddRange(now);
 
                 return close;
@@ -142,8 +139,8 @@ public class Graph : MonoBehaviour {
                         // !Game.getCompressingRoad().noObjectOnWay(newVector, inPoint, ship)
                         if (newVector == inPoint)
                             continue;
-                        if (isBlocked(newVector))
-                            newVector = chooseNearest(newVector);
+                        if (isBlocked(newVector, ship, planetDist))
+                            newVector = chooseNearest(newVector, ship, planetDist);
                         
                         float toEnd = VectorUtility.vecLength(newVector, end);
                         float costToStart = examined.Item2.fromStart + VCost(changing, routePrecision);
