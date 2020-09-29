@@ -4,7 +4,23 @@ using UnityEngine;
 
 public class PauseWhenClick : MonoBehaviour
 {
+    public GameObject Panel;
+    public GameObject GeneralPanel;
     private bool gameIsPaused= false;
+
+    public void OpenPanel()
+    {
+        bool isActive = Panel.activeSelf;
+        if (GeneralPanel.activeSelf == true && Panel.activeSelf == false)
+        {
+            GeneralPanel.SetActive(false);
+            Panel.SetActive(false);
+        }
+        else
+        {
+            Panel.SetActive(!isActive);
+        }
+    }
 
     public void PauseGame()
     {
