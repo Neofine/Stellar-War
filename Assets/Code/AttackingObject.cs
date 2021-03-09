@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackingObject : MonoBehaviour {
 
     private List<Bullet> toMove;
-    private float bulletSpeed = 5f;
+    private float bulletSpeed = 0.1f;
 
     private void Start() {
         toMove = new List<Bullet>();
