@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackingObject : MonoBehaviour {
 
     private List<Bullet> toMove;
-    private float bulletSpeed = 0.1f;
+    public float bulletSpeed = 0.1f;
 
     private void Start() {
         toMove = new List<Bullet>();
@@ -39,6 +39,7 @@ public class AttackingObject : MonoBehaviour {
             Vector3 to = bullet.to.transform.position;
             GameObject obj = bullet.obj;
             obj.transform.position = Vector3.MoveTowards(obj.transform.position, to, bulletSpeed);
+            obj.transform.LookAt(to);
             if (VectorUtility.vecLength(obj.transform.position, to) < 2) {
                 toMove.Remove(bullet);
                 Destroy(obj);

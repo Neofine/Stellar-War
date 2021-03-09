@@ -121,7 +121,7 @@ public class ObjectClick : MonoBehaviour {
                 Planet planet = clicked.GetComponent<Planet>();
                 Game.getSwitchCamera().makeMiniCamera(planet);
             }
-            else if (clicked != null && clicked.GetComponent<Clickable>().isShip()) {
+            else if (clicked != null && clicked.GetComponent<Clickable>().isShip() && !clicked.GetComponent<Ship>().isFriendly()) {
                 //Ship clickedShip = clicked.GetComponent<Ship>();
                 foreach(Ship ship in objHighlighted) {
                     if (ship.TryGetComponent(out FollowingMovingObject follow)) {
@@ -156,7 +156,7 @@ public class ObjectClick : MonoBehaviour {
         }
         else if (Input.GetMouseButtonUp(0)) {
             if (timeBetween < 0.2f) {
-                if (onWatch != null && onWatch.GetComponent<Clickable>().isShip()) {
+                if (onWatch != null && onWatch.GetComponent<Clickable>().isShip() && onWatch.GetComponent<Ship>().isFriendly()) {
                     highlight(onWatch, true);
                 }
             }
