@@ -17,7 +17,7 @@ Why limit to shooting ships? They can also destroy buildings on planets:
 ![Shooting Buildings](gifs/shooting-buildings.gif)
 
 Having destroyed this building lets place some!
-![Avoiding Obstacles](gifs/avoiding-objects.gif)
+![Avoiding Obstacles](gifs/placing-buildings.gif)
 
 
 @treachGit made **every** object there is in game
