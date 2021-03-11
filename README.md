@@ -2,11 +2,11 @@ Welcome to Stellar War!
 
 ![Stellar welcome](Demo/stellar-graphics.png)
 
-Mine and @treachGIT summer project.
+Summer project that I have created with @treachGit.
 
 Here are some functionalities:
 
-You can mark multiple ships and make them move to specific point:
+You can mark multiple ships and make them move to a specific point:
 ![Ships Movement](Demo/multiple-moving.gif)
 
 Their movement is also smart, they avoid planets and other obstacles:
@@ -18,9 +18,9 @@ Marked ships can also attack enemy ones!
 Why limit to shooting ships? They can also destroy buildings on planets:
 ![Shooting Buildings](Demo/shooting-buildings.gif)
 
-Having destroyed this building lets place some!
+Having destroyed this building lets place some more!
 ![Avoiding Obstacles](Demo/placing-buildings.gif)
 
 
-@treachGit made **every** object there is in game
-I have written (almost) every line of code responsible for these functionalities.
+@treachGit made **every** object there is in game.  
+I have written code responsible for these functionalities.
