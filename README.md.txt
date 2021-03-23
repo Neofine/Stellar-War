@@ -1,1 +1,0 @@
-![Ships Movement](game_gifs/multiple-moving)
